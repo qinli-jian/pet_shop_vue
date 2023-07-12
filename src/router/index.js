@@ -10,7 +10,9 @@ const routes = [
     component:()=>import('../views/hongpage/homepage.vue'),
     redirect:"/frontpage",
     children:[
-      {path:'frontpage',name:'frontpage',component:()=>import('../views/hongpage/firstPage.vue')}
+      {path:'frontpage',name:'frontpage',component:()=>import('../views/hongpage/firstPage.vue')},
+      {path:'goods',name:'goods',component:()=>import('../views/hongpage/goods.vue')},
+      {path:'about',name:'about',component:()=>import('../views/hongpage/about.vue')}
     ]
   },
   // {

@@ -6,13 +6,16 @@
         <p style="width: 40px;margin-left: 20px;">首页</p>
 
         <div class="header-2">
-            <img src="../../assets/pngdemo/ruke5.png" class="icon" alt="Icon"/>
+            <img src="../../assets/images/ruke5.png" class="icon" alt="Icon"/>
           <el-link href="http://localhost:8082/page" target="_blank" type="primary" style="font-size: 12px;"> 顶针的动物朋友</el-link>
         </div>
         <div class="header-3">
-          <el-button type="text" style="width: 20px; margin-right: 10px;" @click="gotoLogin">[登录]</el-button>
-          <el-button type="text" style="width: 20px; margin-right: 10px;" @click="gotoRegister">[注册]</el-button>
-          <el-button type="text" style="width: 20px; margin-left: 20px;" @click="gotoMessage">
+          <!-- 登录状态 -->
+          <div v-if="isLoggedIn">
+          <el-button  type="text" style="width: 20px; margin-right: 20px; left: 10px;" @click="exit">
+            {{ username }} [退出]
+          </el-button>
+          <el-button type="text" style="width: 20px; margin-left: 40px;" @click="gotoMessage">
             <i class="el-icon-chat-dot-round">新消息</i></el-button>
           <el-button type="text" style="width: 20px; margin-left: 40px;" @click="gotoShopping">
             <i class="el-icon-shopping-cart-2">购物车</i></el-button>
@@ -24,6 +27,13 @@
               <el-dropdown-item command="c">阿巴阿巴</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
+          </div>
+          <!-- 未登录状态 -->
+          <div v-else>
+            <el-button type="text" style="width: 20px; margin-right: 10px;" @click="gotoLogin">[登录]</el-button>
+            <el-button type="text" style="width: 20px; margin-right: 10px;" @click="gotoRegister">[注册]</el-button>
+          </div>
+
         </div>
       </div>
     </el-header>
@@ -33,7 +43,6 @@
     </el-main>
 
     <el-footer>
-      Footer
     </el-footer>
   </el-container>
 </div>
@@ -46,6 +55,8 @@ export default {
 
   data(){
     return{
+      isLoggedIn: true, // 根据登录状态设置为 true 或 false
+      username: '王小浩' // 根据登录用户设置用户名
 
     }
   },
@@ -53,15 +64,20 @@ export default {
   methods:{
     gotoLogin(){
       console.log("登录")
+      this.isLoggedIn=true
     },
     gotoRegister(){
       console.log("注册")
     },
     gotoShopping(){
-      console.log("消息")
+      console.log("购物车")
     },
     gotoMessage(){
-      console.log("购物车")
+      console.log("消息")
+    },
+    exit(){
+      console.log("退出")
+      this.isLoggedIn=false
     },
 
     handleCommand(command) {
