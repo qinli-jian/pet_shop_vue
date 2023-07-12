@@ -1,0 +1,23 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 16px; /* 设置默认字体大小为 16 像素 */
+}
+.ml-5{
+    margin-left: 5px;
+}
+.mr-5{
+    margin-right: 5px;
+}
+.pd-10{
+    padding: 10px;
+}
+.el-footer, .el-main,.el-card__body, .el-header{
+    padding: 0px;
+}
+

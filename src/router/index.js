@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
 import UserLogin from "@/views/register/UserLogin";
 import UserRegister from "@/views/register/UserRegister";
 
@@ -23,7 +22,6 @@ const routes = [
     name:'注册',
     component: UserRegister
   }
-
 
 ]
 
