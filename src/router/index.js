@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import UserLogin from "@/views/register/UserLogin";
+import UserRegister from "@/views/register/UserRegister";
+
 
 Vue.use(VueRouter)
 
@@ -17,10 +20,11 @@ const routes = [
       {path: 'test',name:'test',component:()=>import('../views/hongpage/test.vue')}
     ]
   },
-  // {
-  //   path:'/',
-  //   redirect:"/page/frontpage"
-  // }
+  {
+    path: '/register',
+    name:'注册',
+    component: UserRegister
+  }
 
 ]
 
