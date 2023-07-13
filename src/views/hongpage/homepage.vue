@@ -1,13 +1,12 @@
 <template>
 <div>
+<!--  导航栏信息-->
   <el-container>
     <el-header class="elheader1">
       <div class="header-1">
-        <p style="width: 40px;margin-left: 20px;">首页</p>
-
         <div class="header-2">
             <img src="../../assets/images/ruke5.png" class="icon" alt="Icon"/>
-          <el-link href="http://localhost:8082/page" target="_blank" type="primary" style="font-size: 12px;"> 顶针的动物朋友</el-link>
+          <el-link href="/" target="_blank" type="primary" style="font-size: 12px;"> 顶针的动物朋友</el-link>
         </div>
         <div class="header-3">
           <!-- 登录状态 -->
@@ -42,7 +41,35 @@
       <router-view />
     </el-main>
 
-    <el-footer>
+    <el-footer style="margin: 40px 100px 50px 200px">
+      <div class="footer-container">
+        <div class="footer-content">
+          <h3>联系信息</h3>
+          <p>电话: 023-62652498</p>
+          <p>电子邮件: info@example.com</p>
+          <p>地址: 重庆市南岸区学府大道66号</p>
+        </div>
+        <div class="footer-content">
+          <h3>导航</h3>
+          <ul>
+            <li><a href="#">首页</a></li>
+            <li><a href="#">关于我们</a></li>
+            <li><a href="#">产品</a></li>
+            <li><a href="#">联系我们</a></li>
+          </ul>
+        </div>
+        <div class="footer-content">
+          <h3>社交媒体</h3>
+          <ul>
+            <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 Example Website. All Rights Reserved.</p>
+      </div>
     </el-footer>
   </el-container>
 </div>
@@ -90,18 +117,18 @@ export default {
 
 <style scoped>
 .icon{
-  height: 20px;
+  height: 30px;
 }
 .elheader1{
   display: flex;
   /*align-items: center;*/
   align-items: flex-start;
   background: #9acaf1;
-  height: 20px !important;
+  height: 30px !important;
   /*justify-content: flex-end;*/
 }
 .header-1{
-  font-size: 12px;
+  font-size: 14px;
   display: flex;
 }
 .header-2{
@@ -115,7 +142,7 @@ export default {
 .header-3{
   /*margin-top: 10px; !* 设置上方间距 *!*/
   /*margin-bottom: 10px; !* 设置下方间距 *!*/
-  height: 20px !important;
+  height: 30px !important;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -126,5 +153,43 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+.footer-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.footer-content {
+  flex: 1 1 300px;
+  margin: 10px;
+}
+
+.footer-content h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.footer-content p, .footer-content ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-content ul li {
+  margin-bottom: 5px;
+}
+
+.footer-content ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #888;
 }
 </style>

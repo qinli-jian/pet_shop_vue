@@ -1,13 +1,12 @@
 <template>
   <div>
-    <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>
+
     <div style="height: 100px; display: flex; margin-top: 5px" >
       <div style=" margin-left: 500px">
         <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" >
           <el-menu-item index="/frontpage"  @click="toPath('/frontpage')">首页</el-menu-item>
           <el-menu-item index="/goods" @click="toPath('/goods')">全部商品</el-menu-item>
           <el-menu-item index="/about" @click="toPath('/about')">关于我们</el-menu-item>
-
         </el-menu>
 
       </div>
@@ -19,6 +18,11 @@
       </div>
 
     </div>
+<div>
+  <el-button @click="gotoproductDetails"> goto商品详情</el-button>
+  <el-button @click="gotoproducttest"> goto测试</el-button>
+</div>
+
   </div>
 </template>
 
@@ -34,6 +38,12 @@ export default {
   methods:{
     toPath(path1){
       this.$router.push({path:path1}).catch(err => err)
+    },
+    gotoproductDetails(){
+      this.$router.push({path:'/productdetails'}).catch(err => err)
+    },
+    gotoproducttest(){
+      this.$router.push({path:'/test'}).catch(err => err)
     }
 
   }
