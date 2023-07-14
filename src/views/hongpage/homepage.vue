@@ -41,7 +41,8 @@
       <router-view />
     </el-main>
 
-    <el-footer style="margin: 40px 100px 50px 200px">
+    <el-footer style="margin: 40px 260px 50px 150px">
+      <hr>
       <div class="footer-container">
         <div class="footer-content">
           <h3>联系信息</h3>

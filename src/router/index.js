@@ -14,7 +14,7 @@ const routes = [
       {path:'goods',name:'goods',component:()=>import('../views/hongpage/goods.vue')},
       {path:'about',name:'about',component:()=>import('../views/hongpage/about.vue')},
       {path: 'productdetails',name:'productdetails',component:()=>import('../views/hongpage/product_details.vue')},
-      {path: 'test',name:'test',component:()=>import('../views/hongpage/test.vue')}
+      {path: 'searchgoods',name: 'searchgoods',component:()=>import('../views/hongpage/searchgoods.vue')}
     ]
   },
   // {
