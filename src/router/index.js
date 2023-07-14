@@ -102,9 +102,9 @@ const routes = [
                 component: () => import('../views/hongpage/product_details.vue')
             },
             {
-                path: 'test',
-                name: 'test',
-                component: () => import('../views/hongpage/test.vue')
+                path: 'searchgoods',
+                name: 'searchgoods',
+                component: () => import('../views/hongpage/searchgoods.vue')
             },
             {
                 path: '/account-management',
