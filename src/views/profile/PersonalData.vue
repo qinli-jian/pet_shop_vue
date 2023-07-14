@@ -18,7 +18,7 @@
                             <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="">
                             <img v-else src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"
                                  class="avatar" alt="">
-                            <span class="avatar-text" v-show="showText">点击修改头像</span>
+                            <!-- <span class="avatar-text" v-show="showText">点击修改头像</span> -->
                         </div>
 
                     </el-upload>
@@ -89,10 +89,13 @@ export default {
             return isJPG && isLt2M;
         },
         load() {
-            let userId = ''
+            var phone = sessionStorage.getItem("account");
+            phone = '15047418647';
+            var userId = sessionStorage.getItem("id");
+            userId = "";
             axios.get(globalVar.HOST_NAME + "/user/profile", {
                 params: {
-                    phone: '15047418647',
+                    phone: phone,
                     user_id: userId
                 }
             })
@@ -179,7 +182,7 @@ export default {
 .square {
     width: 800px;
     height: auto;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     padding: 30px;
 }
 
@@ -192,7 +195,7 @@ export default {
 }
 
 .width {
-    width: 400px;
+    width: 250px;
 }
 
 .avatar-uploader .el-upload:hover {
@@ -200,8 +203,8 @@ export default {
 }
 
 .avatar {
-    width: 178px;
-    height: 178px;
+    width: 70px;
+    height: 70px;
     display: block;
 }
 </style>

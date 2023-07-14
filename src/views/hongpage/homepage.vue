@@ -11,9 +11,10 @@
         <div class="header-3">
           <!-- 登录状态 -->
           <div v-if="isLoggedIn">
-          <el-button  type="text" style="width: 20px; margin-right: 20px; left: 10px;" @click="exit">
-            {{ username }} [退出]
+          <el-button  type="text" style="width: 20px; margin-right: 10px;" @click="toProfile">
+             {{ username }} 
           </el-button>
+          <el-button type="text" style="width: 20px; margin-left: 20px;" @click="exit">[退出]</el-button>
           <el-button type="text" style="width: 20px; margin-left: 40px;" @click="gotoMessage">
             <i class="el-icon-chat-dot-round">新消息</i></el-button>
           <el-button type="text" style="width: 20px; margin-left: 40px;" @click="gotoShopping">
@@ -89,9 +90,17 @@ export default {
   },
 
   methods:{
+    toProfile(){
+      this.$router.push('/account-management/security-setting').catch(err => {
+        console.log(err)
+      })
+    },
     gotoLogin(){
       console.log("登录")
       this.isLoggedIn=true
+      this.$router.push({path:"/login"}).catch(err => {
+        console.log(err)
+      })
     },
     gotoRegister(){
       console.log("注册")

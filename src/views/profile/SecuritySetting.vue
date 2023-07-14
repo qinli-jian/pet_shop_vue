@@ -32,8 +32,8 @@
                     </el-alert>
                     <el-form-item
                         label="输入验证码">
-                        <el-input style="width: 280px ;margin-right: 10px" v-model="code"></el-input>
-                        <el-button v-if="showButton" style="width: 100px" @click="getCode" :disabled="isCountingDown">
+                        <el-input style="width: 100px ;margin-right: 5px" v-model="code"></el-input>
+                        <el-button v-if="showButton" style="width: 95px" @click="getCode" :disabled="isCountingDown">
                             {{ buttonText }}
                         </el-button>
 
@@ -188,12 +188,12 @@ export default {
 .square {
     width: 800px;
     height: auto;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     padding: 30px;
 
 }
 
 .width {
-    width: 400px;
+    width: 200px;
 }
 </style>
