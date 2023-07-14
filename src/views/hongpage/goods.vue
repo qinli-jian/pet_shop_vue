@@ -31,7 +31,8 @@
             <img :src="product.image"  class="product-image">
             <b style="margin-top: 20px " >{{ product.name }}</b>
             <b style="margin-top: 10px ;color: red;">{{ product.price }}元</b>
-            <del style="margin-top: 10px; color: gray;">{{ product.price }}.00元</del>
+            <b style="margin-top: 20px ">销量:{{product.selnum}}</b>
+<!--            <del style="margin-top: 10px; color: gray;">{{ product.price }}.00元</del>-->
             <!-- 其他商品信息 -->
 
           </div>
@@ -67,6 +68,25 @@ export default {
       kw:'',
       total:0,
       products: [
+        {
+          image:require('../../assets/images/5.png'),
+          name:'珍珠小马',
+          price:'199.00',
+          selnum:'120',
+        },
+        {
+          image:require('../../assets/images/5.png'),
+          name:'珍珠小马',
+          price:'199.00',
+          selnum:'120',
+        },
+        {
+          image:require('../../assets/images/5.png'),
+          name:'珍珠小马',
+          price:'199.00',
+          selnum:'120',
+        },
+        
       ]
     }
   },
