@@ -54,14 +54,17 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
     }
   {
-    path: '/',
-    name: '主页',
-    redirect: ('/register')
-  },
-  {
-    path: '/UserLogin',
-    name: '登陆',
-    component: UserLogin
+    path:'/',
+    name:'homepage',
+    component:()=>import('../views/hongpage/homepage.vue'),
+    redirect:"/frontpage",
+    children:[
+      {path:'frontpage',name:'frontpage',component:()=>import('../views/hongpage/first_page.vue')},
+      {path:'goods',name:'goods',component:()=>import('../views/hongpage/goods.vue')},
+      {path:'about',name:'about',component:()=>import('../views/hongpage/about.vue')},
+      {path: 'productdetails',name:'productdetails',component:()=>import('../views/hongpage/product_details.vue')},
+      {path: 'test',name:'test',component:()=>import('../views/hongpage/test.vue')}
+    ]
   },
   {
     path: '/register',
