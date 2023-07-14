@@ -78,11 +78,11 @@ export default {
     register() {
       // 在此处编写注册逻辑
 
-      this.$router.push('/register')
+      this.$router.push('/UserRegister')
 
     },
     forgotPassword() {
-      // 在此处编写忘记密码逻辑
+      this.$router.push('/UserForget')
     }
   },
 
@@ -93,7 +93,9 @@ export default {
 .wrapper {
   height: 100vh;
   /*background-image: linear-gradient(to bottom right, #42b983, #3F5EFB);*/
-  background-image: url('./pic/xuebao.jpg');
+  background-image: url('./pic/3.jpg');
+  background-size: cover;
+
   overflow: hidden;
 }
 
