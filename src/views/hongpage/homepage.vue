@@ -167,7 +167,7 @@ export default {
     },
     gotoShopping() {
       console.log("购物车");
-      this.$router.push("ShoppingCart").catch((err) => {
+      this.$router.push({ path: "/ShoppingCart" }).catch((err) => {
         console.log(err);
       });
     },
