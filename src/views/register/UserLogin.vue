@@ -1,5 +1,14 @@
 <template>
   <div class="wrapper">
+    <div class="top">
+      <el-link
+              href="/"
+              type="primary"
+              style="font-size: 12px"
+            >
+              顶针的动物朋友</el-link
+            >
+    </div>
     <div class="login-container">
       <div class="login-header">欢迎来到宠物之家</div>
       <el-form :model="userLogin" ref="loginForm" :rules="rules" class="login-form">
@@ -23,6 +32,7 @@
 
 <script>
 import axios from "axios";
+import { globalVar } from "@/utils/globalVar";
 export default {
   name: "Login",
   data() {
@@ -42,12 +52,13 @@ export default {
   },
   methods: {
     login() {
+      let _this = this;
       this.$refs["loginForm"].validate((valid) => {
         if (valid) {
           // 向服务器发送登录请求
           const { mobile, password } = this.userLogin;
           console.log(mobile)
-          this.request.post('http://5735bc3c.r7.cpolar.top/user/login', {
+          this.request.post( globalVar.HOST_NAME + '/user/login', {
             "account" :mobile,
             "password":password
           })
@@ -56,9 +67,15 @@ export default {
                 // 登录成功的操作
                 if (response.code==="200") {
                   console.log(response.code)
-                  this.$message.success(response.msg);
+                  _this.$message.success(response.msg);
+                  var user_id = response.data.user.id;
+                  var name = response.data.user.name;
+                  console.log("user_id");
+                  console.log(user_id);
+                  localStorage.setItem("id",user_id);
+                  localStorage.setItem("name",name);
                   // 跳转到首页或其他页面
-                  this.$router.push('/主页');
+                  this.$router.push('/');
                 } else {
                   // 登录失败的操作，如提示错误信息
                   console.log(response.code)
@@ -90,6 +107,12 @@ export default {
 </script>
 
 <style scoped>
+.top{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
 .wrapper {
   height: 100vh;
   /*background-image: linear-gradient(to bottom right, #42b983, #3F5EFB);*/

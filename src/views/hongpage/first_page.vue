@@ -199,7 +199,8 @@ export default {
   },
   created() {
     this.getfenlei()
-  },
+  },  
+  
   methods:{
     noFocus(){
       console.log("=====")

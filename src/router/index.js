@@ -18,46 +18,36 @@ import ApplyAfterSales from "@/views/ApplyAfterSales/ApplyAfterSales";
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: '主页',
-    redirect: ('/ApplyAfterSales')
-  },
-  {
-    path:'/ShoppingCart',
-    name:'购物车',
-    component: ShoppingCart
-  },
-  {
-    path: '/UserLogin',
-    name: '登陆',
-    component: UserLogin
-  },
-  {
-    path: '/UserRegister',
-    name:'注册',
-    component: UserRegister
-  },
-  {
-    path:'/UserForget',
-    name: '忘记密码',
-    component: UserForget
-  },
-  {
-    path:'/home',
-    name:'jjj',
-    component: home
-  },
-  {
-    path:'/OrderDetails',
-    name:'订单详情页',
-    component: OrderDetails
-  },
-  {
-    path:'/ApplyAfterSales',
-    name:'申请售后',
-    component: ApplyAfterSales
-  }
+    {
+        path: '/login',
+        name: '登陆',
+        component: UserLogin
+    },
+    {
+        path: '/UserRegister',
+        name: '注册',
+        component: UserRegister
+    },
+    {
+        path: '/UserForget',
+        name: '忘记密码',
+        component: UserForget
+    },
+    //   {
+    //     path:'/home',
+    //     name:'jjj',
+    //     component: home
+    //   },
+    {
+        path: '/OrderDetails',
+        name: '订单详情页',
+        component: OrderDetails
+    },
+    {
+        path: '/ApplyAfterSales',
+        name: '申请售后',
+        component: ApplyAfterSales
+    },
     // {
     //     path: '/',
     //     name: 'home',
@@ -81,7 +71,12 @@ const routes = [
         name: 'homepage',
         component: () => import('../views/hongpage/homepage.vue'),
         redirect: "/frontpage",
-        children: [{
+        children: [
+            {
+                path: 'order',
+                name: 'order',
+                component: order
+            },{
                 path: 'frontpage',
                 name: 'frontpage',
                 component: () => import('../views/hongpage/first_page.vue')
@@ -90,6 +85,11 @@ const routes = [
                 path: 'goods',
                 name: 'goods',
                 component: () => import('../views/hongpage/goods.vue')
+            },
+            {
+                path: 'ShoppingCart',
+                name: '购物车',
+                component: ShoppingCart
             },
             {
                 path: 'about',
@@ -126,7 +126,7 @@ const routes = [
                         name: 'shipping-address',
                         component: ShippingAddress
                     }
-        
+
                 ]
             },
         ]
