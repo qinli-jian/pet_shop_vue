@@ -1,18 +1,20 @@
 <template>
 <div>
+<!--  导航栏信息-->
   <el-container>
     <el-header class="elheader1">
       <div class="header-1">
-        <p style="width: 40px;margin-left: 20px;">首页</p>
-
         <div class="header-2">
-            <img src="../../assets/pngdemo/ruke5.png" class="icon" alt="Icon"/>
-          <el-link href="http://localhost:8082/page" target="_blank" type="primary" style="font-size: 12px;"> 顶针的动物朋友</el-link>
+            <img src="../../assets/images/ruke5.png" class="icon" alt="Icon"/>
+          <el-link href="/" target="_blank" type="primary" style="font-size: 12px;"> 顶针的动物朋友</el-link>
         </div>
         <div class="header-3">
-          <el-button type="text" style="width: 20px; margin-right: 10px;" @click="gotoLogin">[登录]</el-button>
-          <el-button type="text" style="width: 20px; margin-right: 10px;" @click="gotoRegister">[注册]</el-button>
-          <el-button type="text" style="width: 20px; margin-left: 20px;" @click="gotoMessage">
+          <!-- 登录状态 -->
+          <div v-if="isLoggedIn">
+          <el-button  type="text" style="width: 20px; margin-right: 20px; left: 10px;" @click="exit">
+            {{ username }} [退出]
+          </el-button>
+          <el-button type="text" style="width: 20px; margin-left: 40px;" @click="gotoMessage">
             <i class="el-icon-chat-dot-round">新消息</i></el-button>
           <el-button type="text" style="width: 20px; margin-left: 40px;" @click="gotoShopping">
             <i class="el-icon-shopping-cart-2">购物车</i></el-button>
@@ -24,6 +26,13 @@
               <el-dropdown-item command="c">阿巴阿巴</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
+          </div>
+          <!-- 未登录状态 -->
+          <div v-else>
+            <el-button type="text" style="width: 20px; margin-right: 10px;" @click="gotoLogin">[登录]</el-button>
+            <el-button type="text" style="width: 20px; margin-right: 10px;" @click="gotoRegister">[注册]</el-button>
+          </div>
+
         </div>
       </div>
     </el-header>
@@ -32,8 +41,35 @@
       <router-view />
     </el-main>
 
-    <el-footer>
-      Footer
+    <el-footer style="margin: 40px 100px 50px 200px">
+      <div class="footer-container">
+        <div class="footer-content">
+          <h3>联系信息</h3>
+          <p>电话: 023-62652498</p>
+          <p>电子邮件: info@example.com</p>
+          <p>地址: 重庆市南岸区学府大道66号</p>
+        </div>
+        <div class="footer-content">
+          <h3>导航</h3>
+          <ul>
+            <li><a href="#">首页</a></li>
+            <li><a href="#">关于我们</a></li>
+            <li><a href="#">产品</a></li>
+            <li><a href="#">联系我们</a></li>
+          </ul>
+        </div>
+        <div class="footer-content">
+          <h3>社交媒体</h3>
+          <ul>
+            <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2023 Example Website. All Rights Reserved.</p>
+      </div>
     </el-footer>
   </el-container>
 </div>
@@ -46,6 +82,8 @@ export default {
 
   data(){
     return{
+      isLoggedIn: true, // 根据登录状态设置为 true 或 false
+      username: '王小浩' // 根据登录用户设置用户名
 
     }
   },
@@ -53,15 +91,20 @@ export default {
   methods:{
     gotoLogin(){
       console.log("登录")
+      this.isLoggedIn=true
     },
     gotoRegister(){
       console.log("注册")
     },
     gotoShopping(){
-      console.log("消息")
+      console.log("购物车")
     },
     gotoMessage(){
-      console.log("购物车")
+      console.log("消息")
+    },
+    exit(){
+      console.log("退出")
+      this.isLoggedIn=false
     },
 
     handleCommand(command) {
@@ -74,18 +117,18 @@ export default {
 
 <style scoped>
 .icon{
-  height: 20px;
+  height: 30px;
 }
 .elheader1{
   display: flex;
   /*align-items: center;*/
   align-items: flex-start;
   background: #9acaf1;
-  height: 20px !important;
+  height: 30px !important;
   /*justify-content: flex-end;*/
 }
 .header-1{
-  font-size: 12px;
+  font-size: 14px;
   display: flex;
 }
 .header-2{
@@ -99,7 +142,7 @@ export default {
 .header-3{
   /*margin-top: 10px; !* 设置上方间距 *!*/
   /*margin-bottom: 10px; !* 设置下方间距 *!*/
-  height: 20px !important;
+  height: 30px !important;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -110,5 +153,43 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+.footer-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.footer-content {
+  flex: 1 1 300px;
+  margin: 10px;
+}
+
+.footer-content h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.footer-content p, .footer-content ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-content ul li {
+  margin-bottom: 5px;
+}
+
+.footer-content ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #888;
 }
 </style>
