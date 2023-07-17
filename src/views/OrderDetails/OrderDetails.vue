@@ -1,21 +1,25 @@
 <template>
   <div class="MainBack">
-    <div class="ml-5">
+    <div style="text-align: center">
       <h1>订单详情</h1>
     </div>
     <div style="margin: 50px 100px">
-      <el-steps :active="currentStep" finish-status="success" align-center>
-        <el-step v-for="(step, index) in steps" :key="index" :title="step.title"></el-step>
+      <el-steps :active="currentStep" finish-status="success" align-center  >
+        <el-step v-for="(step, index) in steps" :key="index" :title="step.title" >
+          <template slot="description">
+            {{ index < currentStep ? completeTime : '暂无信息'  }}
+          </template>
+        </el-step>
       </el-steps>
     </div>
     <div class="ml-100">
-      <el-row>
-        <el-col :span="12" align="left" style="font-weight: 200; font-size: 12px;">
+      <el-row v-model="order">
+        <el-col :span="12" align="left" style="font-weight: 200; font-size: 12px;" >
           <h3>订单信息</h3>
           <p>订单创建时间：{{ order.createTime }}</p>
           <p>收货地址：{{ order.shippingAddress }}</p>
           <p>订单编号：{{ order.orderNumber }}</p>
-          <p>商家名称：{{ order.merchantName }}</p>
+
         </el-col>
         <el-col :span="12" align="left" style="font-weight: 200; font-size: 12px;">
           <h3>订单状态</h3>
@@ -28,21 +32,22 @@
       </el-row>
     </div>
     <div class="ml-5">
-      <div class="ml-5">
+      <div style="margin: 0 100px">
         <el-table :data="order.items" border>
-          <el-table-column prop="image" label="商品图片">
+          <el-table-column prop="image" label="商品图片" width="100px">
             <template slot-scope="scope">
-              <img :src="scope.row.image" class="product-image" alt="商品图片" style="width: 98px; height: 98px;"/>
+              <img :src="globalVar.STATIC_NAME + scope.row.image" class="product-image" alt="商品图片" />
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="商品名称" width="100px"></el-table-column>
-          <el-table-column prop="price" label="单价"></el-table-column>
-          <el-table-column prop="quantity" label="数量"></el-table-column>
-          <el-table-column prop="totalPrice" label="总价"></el-table-column>
-          <el-table-column prop="status" label="状态"></el-table-column>
+          <el-table-column prop="name" label="商品名称" width="100px" align="center"></el-table-column>
+          <el-table-column prop="price" label="单价" align="center"></el-table-column>
+          <el-table-column prop="quantity" label="数量" align="center"></el-table-column>
+          <el-table-column prop="OneTotalPrice" label="总价" align="center"></el-table-column>
+          <el-table-column prop="status" label="状态" align="center"></el-table-column>
         </el-table>
+
       </div>
-      <div class="ml-5">
+      <div style="margin: 0 100px">
         <div class="order-summary">
           <div class="summary-item">
             <span>订单商品总价：</span>
@@ -63,25 +68,29 @@
 </template>
 
 <script>
-import axios from 'axios';
+import {globalVar} from "@/utils/globalVar";
+import axios from "axios";
 
 export default {
   data() {
     return {
+
+      globalVar:globalVar,
       currentStep: 0,
+      completeTime:'',
       order: {
         orderNumber: '',
         shippingAddress: '',
-        merchantName: '',
+
         status: '',
         logisticsCompany: '',
         waybillNumber: '',
-        isDelivered: false,
+        isDelivered: true,
         createTime: '',
         receiveTime: '',
         items: [],
         totalPrice: '',
-        shippingFee: '',
+        shippingFee: '0',
         actualPayment: ''
       },
       steps: [
@@ -98,12 +107,70 @@ export default {
   },
   mounted() {
     // 发送 HTTP 请求获取订单详情数据
-    this.request.get('/api/order/detail')  // 替换为你的后端 API 地址
+
+    const param={
+      order_id:"1"
+    }
+    this.request.get( globalVar.HOST_NAME + '/user_order/details',{
+      params:param
+    })  // 替换为你的后端 API 地址
         .then(response => {
-          this.order = response.data;
+          this.$message.success("获取成功");
+          console.log(response.data);
+
+          // 订单信息
+          this.order.createTime=response.data.create_time;
+          this.order.orderNumber=response.data.order_id;
+          this.order.shippingAddress=response.data.address;
+          //  订单状态
+          this.order.status=response.data.latest_status.status_description;
+          this.order.logisticsCompany=response.data.logistics_company;
+          this.order.waybillNumber=response.data.waybill;
+
+          // 遍历 order_status 数组并进行判断
+          let isDelivered = false;
+          for (const status of response.data.order_status) {
+            if (status.status_id === 7) {
+              isDelivered = true;
+              break;
+            }
+          }
+          // 根据判断结果赋值给 this.order.isDelivered
+          this.order.isDelivered = isDelivered;
+          // 初始化 receiveTime 为默认值 "未签收"
+          this.order.receiveTime = "未签收";
+        // 遍历 order_status 数组并进行判断
+          for (const status of response.data.order_status) {
+            if (status.status_id === 7) {
+              this.order.receiveTime = status.create_time;
+              break;
+            }
+          }
+          //商品表格
+          for (const item of response.data.commodity_list) {
+            const newItem = {
+              image: item.image,
+              name: item.commodity_name,
+              price: item.price,
+              quantity: item.num,
+              OneTotalPrice: item.price * item.num,
+              status: response.data.latest_status.status_description
+            };
+            this.order.items.push(newItem);
+          }
+
+          //结尾
+
+          this.order.totalPrice=response.data.total_price;
+          this.order.actualPayment=response.data.total_price;
+
+
+          this.currentStep=response.data.latest_status.status_id;
+
+          this.completeTime=response.data.latest_status.create_time;
         })
         .catch(error => {
-          console.error(error);
+          console.error("测你吗");
         });
   }
 };
@@ -116,8 +183,8 @@ export default {
 }
 
 .product-image {
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
 }
 
 .order-summary {
@@ -142,6 +209,6 @@ export default {
 .MainBack {
   background-color: rgba(241, 238, 238, 0.98);
   overflow: hidden;
-  margin: 0px 200px;
+
 }
 </style>

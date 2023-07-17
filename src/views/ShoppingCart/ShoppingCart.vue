@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <div class="page-shopping-cart">
-      <h4 class="cart-title">你亲爱的垃圾车</h4>
+      <h4 class="cart-title">购物车</h4>
 
       <!--    <div class="cart-product-title clearfix">-->
       <!--      <div class="td-check fl">-->
@@ -94,10 +94,10 @@ export default {
     return {
       productList: [
         {
-          pro_image:require("@/assets/pic/2.jpg"),
-          pro_name: '瑞克',
-          pro_brand: '雪豹',
-          pro_place: '山里',
+          pro_image:require(""),
+          pro_name: '',
+          pro_brand: '',
+          pro_place: '',
           selectedSpec: '',
 
           pro_depot: '上海仓海仓储',
@@ -105,51 +105,7 @@ export default {
           pro_price: 800,
           select: false
         },
-        {
-          pro_image:require("@/assets/pic/2.jpg"),
-          pro_name: '瑞克',
-          pro_brand: '雪豹',
-          pro_place: '山里',
-          pro_depot: '上海仓海仓储',
-          pro_num: 1,
-          pro_price: 800,
-          select: false
-        },
-        {
-          pro_image:require("@/assets/logo.png"),
-          pro_name: '瑞克',
-          pro_brand: '雪豹',
-          pro_place: '山里',
 
-          pro_depot: '上海仓海仓储',
-          pro_num: 1,
-          pro_price: 800,
-          select: false
-        },
-        {
-          'pro_image':require("@/assets/pic/2.jpg"),
-          'pro_name': '顶针',
-          'pro_brand': '雪豹',
-          'pro_place': '山里',
-          'pro_purity': '200g',
-
-          'pro_depot': '上海仓海仓储',
-          'pro_num': 1,
-          'pro_price': 800,
-          'select': false
-        },
-        {
-          'pro_image':require("@/assets/pic/2.jpg"),
-          'pro_name': '顶针',
-          'pro_brand': '雪豹',
-          'pro_place': '山里',
-          'pro_purity': '200g',
-
-          'pro_depot': '上海仓海仓储',
-          'pro_num': 1,
-          'pro_price': 800,
-          'select': false
-        }
       ],
       specOptions: [], // 存储规格选项的数组
     };
