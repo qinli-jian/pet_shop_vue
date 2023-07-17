@@ -18,18 +18,18 @@ import ApplyAfterSales from "@/views/ApplyAfterSales/ApplyAfterSales";
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: '主页',
-    redirect: ('/ApplyAfterSales')
-  },
+  // {
+  //   path: '/',
+  //   name: '主页',
+  //   redirect: ('/ApplyAfterSales')
+  // },
   {
     path:'/ShoppingCart',
     name:'购物车',
     component: ShoppingCart
   },
   {
-    path: '/UserLogin',
+    path: '/login',
     name: '登陆',
     component: UserLogin
   },
@@ -57,7 +57,7 @@ const routes = [
     path:'/ApplyAfterSales',
     name:'申请售后',
     component: ApplyAfterSales
-  }
+  },
     // {
     //     path: '/',
     //     name: 'home',
@@ -111,6 +111,7 @@ const routes = [
                 name: 'profile',
                 component: profile,
                 // redirect: "/security_setting",
+
                 children: [{
                         path: '/account-management/security-setting',
                         name: 'security-setting',
@@ -126,7 +127,7 @@ const routes = [
                         name: 'shipping-address',
                         component: ShippingAddress
                     }
-        
+
                 ]
             },
         ]

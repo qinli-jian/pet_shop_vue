@@ -23,6 +23,7 @@
 
 <script>
 import axios from "axios";
+import {globalVar} from "@/utils/globalVar";
 export default {
   name: "Login",
   data() {
@@ -47,7 +48,7 @@ export default {
           // 向服务器发送登录请求
           const { mobile, password } = this.userLogin;
           console.log(mobile)
-          this.request.post('http://5735bc3c.r7.cpolar.top/user/login', {
+          this.request.post(globalVar.HOST_NAME+'/user/login', {
             "account" :mobile,
             "password":password
           })

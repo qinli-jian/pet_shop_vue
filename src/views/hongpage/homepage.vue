@@ -12,7 +12,7 @@
           <!-- 登录状态 -->
           <div v-if="isLoggedIn">
           <el-button  type="text" style="width: 20px; margin-right: 10px;" @click="toProfile">
-             {{ username }} 
+             {{ username }}
           </el-button>
           <el-button type="text" style="width: 20px; margin-left: 20px;" @click="exit">[退出]</el-button>
           <el-button type="text" style="width: 20px; margin-left: 40px;" @click="gotoMessage">
@@ -91,7 +91,7 @@ export default {
 
   methods:{
     toProfile(){
-      this.$router.push('/account-management/security-setting').catch(err => {
+      this.$router.push('/account-management/personal-data').catch(err => {
         console.log(err)
       })
     },
