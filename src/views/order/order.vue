@@ -18,7 +18,7 @@
       <div class="orderList">
         <div class="page-wrap w">
           <div class="orderList-table">
-            <table class="order-head" style="background-color: #9e9e9e">
+            <table class="order-head" style="background-color: #F5F5F5">
               <tbody>
                 <tr>
                   <th class="order_info">商品信息</th>
@@ -75,34 +75,43 @@
                       <td colspan="" rowspan="" headers="" class="order_num body_content_num">
                         <p>{{ work.num }}</p>
                       </td>
+                      <td colspan="" rowspan="" headers="" class="goods_handle body_content_handle">
+                        <p class="click change-color-on-hover">
+                          <span @click="afterSale"> 申请售后 </span>
+                        </p>
+                        <p class="click change-color-on-hover" @click="complainSeller">
+                          投诉卖家
+                        </p>
+                        <p v-if="item.status.status_description === '已签收' ||
+                          item.status.status_description === '交易成功'
+                          " class="click change-color-on-hover">
+                          <span>
+                            <el-button @click="comment(index, work)">追加评论</el-button>
+                          </span>
+                        </p>
+                      </td>
                     </div>
 
-                    <td colspan="" :rowspan="item.commodity_list.length" headers=""
-                      class="goods_handle body_content_handle">
-                      <p class="click change-color-on-hover">
-                        <span @click="afterSale"> 申请售后 </span>
-                      </p>
-                      <p class="click change-color-on-hover" @click="complainSeller">
-                        投诉卖家
-                      </p>
-                    </td>
+
                     <td colspan="" :rowspan="item.commodity_list.length" headers="" class="real_pay body_content_pay">
-                      <p class="price">￥{{ item.total_price }}</p>
+                      <p class="price"><span
+                          data-reactid=".0.7:$order-3439077948206595114.$3439077948206595114.0.1:1:0.$0.$1.0.1.0">￥</span>{{
+                            item.total_price }}</p>
                       <!--                                        <p class="postage">(含运费：￥{{ item.postage }})</p>-->
                       <p class="postage">(含运费：￥0.00)</p>
                     </td>
                     <td colspan="" :rowspan="item.commodity_list.length" headers=""
                       class="order_status body_content_status">
                       <p>
-                        <span v-if="item.status.status_description === '已取消'">订单已取消</span>
-                        <span v-if="item.status.status_description === '已下单'">已下单</span>
-                        <span v-if="item.status.status_description === '待支付'">待支付</span>
-                        <span v-if="item.status.status_description === '已支付'">已支付</span>
-                        <span v-if="item.status.status_description === '出货中'">出货中</span>
-                        <span v-if="item.status.status_description === '已发货'">已发货</span>
-                        <span v-if="item.status.status_description === '运输中'">运输中</span>
-                        <span v-if="item.status.status_description === '已签收'">已签收</span>
-                        <span v-if="item.status.status_description === '交易成功'">交易成功</span>
+                        <span v-if="item.status.status_description === '已取消'"><el-tag type="warning">订单已取消</el-tag></span>
+                        <span v-if="item.status.status_description === '已下单'"><el-tag type="success">已下单</el-tag></span>
+                        <span v-if="item.status.status_description === '待支付'"><el-tag type="info">待支付</el-tag></span>
+                        <span v-if="item.status.status_description === '已支付'"><el-tag type="success">已支付</el-tag></span>
+                        <span v-if="item.status.status_description === '出货中'"><el-tag type="">出货中</el-tag></span>
+                        <span v-if="item.status.status_description === '已发货'"><el-tag type="info">已发货</el-tag></span>
+                        <span v-if="item.status.status_description === '运输中'"><el-tag type="info">运输中</el-tag></span>
+                        <span v-if="item.status.status_description === '已签收'"><el-tag type="info">已签收</el-tag></span>
+                        <span v-if="item.status.status_description === '交易成功'"><el-tag type="success">交易成功</el-tag></span>
                         <span v-if="item.status.status_description === '审核中'">审核中</span>
                         <span v-if="item.status.status_description === '待运回'">待运回</span>
                         <span v-if="item.status.status_description === '已退款'">已退款</span>
@@ -130,7 +139,7 @@
                       <p v-if="item.status.status_description === '已签收' ||
                         item.status.status_description === '交易成功'
                         " class="click change-color-on-hover">
-                        <span @click="comment(index)">追加评论</span>
+                        <span @click="invoice">申请发票</span>
                       </p>
                     </td>
                   </tr>
@@ -151,12 +160,23 @@
                     上传图片
                   </div>
                   <el-upload :action="globalVar.HOST_NAME + '/file/upload'" name="image" list-type="picture-card"
-                    :on-preview="handlePictureCardPreview" :on-remove="handleRemove" @click="testImg" :on-success="uploadSuccess">
+                    :on-preview="handlePictureCardPreview" :on-remove="handleRemove" @click="testImg"
+                    :on-success="uploadSuccess">
                     <i class="el-icon-plus"></i>
                   </el-upload>
                   <el-dialog :visible.sync="dialogVisible">
                     <img width="100%" :src="dialogImageUrl" alt="">
                   </el-dialog>
+                </div>
+                <div class="area">
+                  <div class="label">
+                    商品评分
+                  </div>
+                  <el-rate v-model="rating" @change="testRating" show-text>
+                  </el-rate>
+                </div>
+                <div class="area">
+                  <el-button type="primary" @click="commitComment">提交评论</el-button>
                 </div>
               </div>
             </div>
@@ -176,9 +196,12 @@ export default {
   name: "order",
   data() {
     return {
-      commentRating:0,
-      uploadImageNames:[],
-      globalVar:globalVar,
+      currentCommentId: -1,
+      rating: 1,
+      currentSpecifications: "",
+      commentRating: 0,
+      uploadImageNames: [],
+      globalVar: globalVar,
       dialogImageUrl: '',
       dialogVisible: false,
       commentContent: "",
@@ -203,12 +226,48 @@ export default {
   },
 
   methods: {
-    uploadSuccess(res){
+    commitComment() {
+      let _this = this;
+      const user_id = localStorage.getItem("id");
+      if (user_id === "" || user_id == undefined || user_id == null) {
+        this.$router.push({ path: "/login" }).catch((err) => {
+          console.log(err);
+        });
+      } else {
+        this.request.post(globalVar.HOST_NAME + '/comment/addcomment', {
+          "user_id": user_id,
+          "content": this.commentContent,
+          "commodity_id": this.currentCommentId,
+          "rating": this.rating,
+          "images": this.uploadImageNames,
+          "reply_to_comment_id": "-1"
+        }).then((res) => {
+          console.log(res);
+          if (res.code === "200") {
+            _this.$message.success("评论成功")
+            this.currentComment = -1;
+            this.commentContent = "";
+            this.rating = 0;
+            this.uploadImageNames = [];
+          } else {
+            _this.$message.error("评论失败")
+          }
+
+        })
+      }
+    },
+    testRating() {
+      console.log(this.rating)
+    },
+    invoice() {
+
+    },
+    uploadSuccess(res) {
       console.log(res)
       this.uploadImageNames.push(res.data.filename)
       console.log(this.uploadImageNames)
     },
-    testImg(){
+    testImg() {
       console.log("图片url")
       console.log(this.dialogImageUrl)
     },
@@ -221,13 +280,21 @@ export default {
       console.log("图片url")
       console.log(this.dialogImageUrl)
     },
-    comment(index) {
+    comment(index, item) {
+      console.log(index)
+      console.log(item.commodity_id)
+      console.log(item.specifications)
+      this.currentCommentId = item.commodity_id;
       this.commentContent = "";
+      this.rating = 0;
+      this.uploadImageNames = [];
+      console.log(index == this.currentComment && item.specifications === this.currentSpecifications)
       // 展示添加评论的界面
-      if (index == this.currentComment) {
+      if (index == this.currentComment && item.specifications === this.currentSpecifications) {
         this.currentComment = -1;
       } else {
         this.currentComment = index;
+        this.currentSpecifications = item.specifications;
       }
     },
     filteredOrders() {
@@ -322,8 +389,13 @@ export default {
 </script>
 
 <style scoped>
+.btn-act {
+  background-color: rgb(84, 84, 234);
+  color: aliceblue;
+}
+
 .label {
-  background-color: rgb(166, 166, 166);
+  background-color: #F5F5F5;
   font-size: 15px;
   display: flex;
   flex-direction: column;
@@ -561,4 +633,3 @@ export default {
   }
 }
 </style>
-
