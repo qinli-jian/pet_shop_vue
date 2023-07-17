@@ -16,32 +16,51 @@ import ApplyAfterSales from "@/views/ApplyAfterSales/ApplyAfterSales";
 Vue.use(VueRouter)
 
 const routes = [
-
-    {
-        path: '/login',
-        name: '登陆',
-        component: UserLogin
-    },
-    {
-        path: '/UserRegister',
-        name: '注册',
-        component: UserRegister
-    },
-    {
-        path: '/UserForget',
-        name: '忘记密码',
-        component: UserForget
-    },
-    {
-        path: '/OrderDetails',
-        name: '订单详情页',
-        component: OrderDetails
-    },
-    {
-        path: '/ApplyAfterSales',
-        name: '申请售后',
-        component: ApplyAfterSales
-    },
+  // {
+  //   path: '/',
+  //   name: '主页',
+  //   redirect: ('/ApplyAfterSales')
+  // },
+  {
+    path:'/ShoppingCart',
+    name:'购物车',
+    component: ShoppingCart
+  },
+  {
+    path: '/login',
+    name: '登陆',
+    component: UserLogin
+  },
+  {
+    path: '/UserRegister',
+    name:'注册',
+    component: UserRegister
+  },
+  {
+    path:'/UserForget',
+    name: '忘记密码',
+    component: UserForget
+  },
+  {
+    path:'/home',
+    name:'jjj',
+    component: home
+  },
+  {
+    path:'/OrderDetails',
+    name:'订单详情页',
+    component: OrderDetails
+  },
+  {
+    path:'/ApplyAfterSales',
+    name:'申请售后',
+    component: ApplyAfterSales
+  },
+    // {
+    //     path: '/',
+    //     name: 'home',
+    //     component: HomeView
+    // },
     {
         path: '/order',
         name: 'order',
@@ -92,6 +111,7 @@ const routes = [
                 name: 'profile',
                 component: profile,
                 // redirect: "/security_setting",
+
                 children: [{
                         path: '/account-management/security-setting',
                         name: 'security-setting',
