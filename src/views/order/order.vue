@@ -109,7 +109,7 @@
                                             <span v-if="item.status.status_description === '已退款'">已退款</span>
                                         </p>
                                         <p class="detail">
-                                            <span @click="orderDetail">订单详情</span>
+                                            <span @click="orderDetail(item.order_id)">订单详情</span>
                                         </p>
                                         <p v-if="item.status.status_description==='已发货'||
                                         item.status.status_description==='已发货'||
@@ -256,8 +256,9 @@ export default {
                     console.log(error);
                 })
         },
-        orderDetail() {
-
+        orderDetail(orderId) {
+            // 使用this.$router.push方法进行页面跳转，并传递数据
+            this.$router.push({ name: '订单详情页', params: { order_id: orderId } });
         },
         deleteOrder(orderId) {
             console.log(orderId)

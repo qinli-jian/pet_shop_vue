@@ -49,7 +49,7 @@ const routes = [
     component: home
   },
   {
-    path:'/OrderDetails',
+    path:'/OrderDetails:order_id',
     name:'订单详情页',
     component: OrderDetails
   },
