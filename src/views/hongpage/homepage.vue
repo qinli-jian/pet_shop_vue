@@ -81,8 +81,10 @@
         <router-view />
       </el-main>
 
-      <el-footer style="margin: 40px 100px 50px 200px">
+      <el-footer style="margin: 80px 260px 50px 160px">
+        <hr>
         <div class="footer-container">
+
           <div class="footer-content">
             <h3>联系信息</h3>
             <p>电话: 023-62652498</p>
@@ -167,7 +169,7 @@ export default {
     },
     gotoShopping() {
       console.log("购物车");
-      this.$router.push("ShoppingCart").catch((err) => {
+      this.$router.push({ path: "/ShoppingCart" }).catch((err) => {
         console.log(err);
       });
     },
@@ -229,6 +231,7 @@ export default {
   align-items: center;
 }
 .footer-container {
+  margin-top: 50px;
   display: flex;
   justify-content: center;
   align-items: flex-start;

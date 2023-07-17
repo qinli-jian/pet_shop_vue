@@ -15,7 +15,8 @@
     </div>
 
     <div style="padding:10px 0 ;margin-left: 200px; display: flex; justify-content: center; align-items: center;">
-      <el-input style="width: 200px " placeholder="请输入想要搜索的商品" suffix-icon="el-icon-search" class="ml-5" v-model="name"></el-input>
+      <el-input style="width: 200px " placeholder="请输入想要搜索的商品" suffix-icon="el-icon-search" class="ml-5" v-model="name"
+                @keyup.enter.native="search"></el-input>
       <el-button   type="primary" @click="search"> 搜索</el-button>
 
     </div>
@@ -46,9 +47,11 @@
   </div>
   <div  class="recommend">
     <div class="item" >
-      <b style="margin-top: 10px ;background-color:#C5DFF8; ">猜你喜欢</b>
+      <b style="margin-top: 10px ;background-color:#C5DFF8;">猜你喜欢</b>
+      <hr >
       <div style="display: flex; justify-content: space-between;flex-wrap: wrap;margin-top: 10px">
-        <el-card v-for="product in products1" :key="product.id" class="person-card1" shadow="hover" @click="toDetails" style="margin-left: 20px ;margin-top: 20px">
+        <el-card v-for="product in products1" :key="product.id" class="person-card1" shadow="hover"
+                 @click.native="toDetails(product.value)" style="margin-left: 20px ;margin-top: 20px">
           <div class="card-content1">
             <div  class="item1">
               <img :src="product.image"  class="product-image1">
@@ -66,8 +69,10 @@
     <br>
     <div class="item" >
       <b style="margin-top: 10px  ;background-color:#C5DFF8;">新品上新</b>
+      <hr>
       <div style="display: flex; justify-content: space-between;flex-wrap: wrap;margin-top: 10px">
-        <el-card v-for="product in products2" :key="product.id" class="person-card1" shadow="hover" @click="toDetails" style="margin-left: 20px ;margin-top: 20px">
+        <el-card v-for="product in products2" :key="product.id" class="person-card1" shadow="hover"
+                 @click.native="toDetails(product.value)" style="margin-left: 20px ;margin-top: 20px">
           <div class="card-content1">
             <div  class="item1">
               <img :src="product.image"  class="product-image1">
@@ -85,9 +90,10 @@
     <br>
     <div class="item">
       <b style="margin-top: 10px ;background-color:#C5DFF8;">热销商品</b>
+      <hr>
       <div style="display: flex; justify-content: space-between;flex-wrap: wrap;margin-top: 10px">
         <el-card v-for="product in products3" :key="product.value" class="person-card1" shadow="hover"
-                 style="margin-left: 20px ;margin-top: 20px; z-index: 100;"  @click="toDetails(product.value)">
+                 style="margin-left: 20px ;margin-top: 20px; z-index: 100;"  @click.native="toDetails(product.value)">
           <div class="card-content1" >
             <div  class="item1" style="border-radius: 5px;">
               <img :src="product.image"  class="product-image1">
@@ -246,12 +252,18 @@ export default {
 
     },
     toDetails(id){
+      const path=globalVar.HOST_NAME+'/commodity/details'
+      // this.$router.push({path:id}).catch(err => err)
+      this.$router.push({path:'productdetails'}).catch(err => err)
       console.log('11111')
       console.log(id)
     },
     search(){
-      console.log('搜索')
-      console.log(this.name)
+      if (this.name!==''){
+        console.log(this.name)
+        this.$router.push({path:'searchgoods'}).catch(err => err)
+      }
+
     },
     reset(){
       console.log('重置')
@@ -295,7 +307,7 @@ export default {
   /*background-color: beige;*/
   margin-top: 25px;
   margin-left: 150px;
-  margin-right: 300px;
+  margin-right: 265px;
   /*display: flex;*/
   /*flex-direction: column;*/
   /*justify-content: center;*/
