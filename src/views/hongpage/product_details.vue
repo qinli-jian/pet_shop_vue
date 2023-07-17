@@ -39,7 +39,6 @@
 <!--                  <el-button v-for="flavor in flavors" :key="flavor"  size="mini" style="margin: 10px"-->
 <!--                             v-model="selectedFlavor" @click="selectFlavor(flavor)">{{ flavor }}</el-button>-->
                 </div>
-                <hr>
 <!--                <h3>选中的规格:-->
 <!--                  <el-input-->
 <!--                      style="width: 150px"-->
@@ -58,17 +57,20 @@
 <!--                <div>-->
 <!--                  Selected Flavor: {{ selectedFlavor }}-->
 <!--                </div>-->
+                <h3>价格 : {{price}}</h3>
                 <div>
 
                 </div>
 
               </div>
               <hr>
-              <div class="item22"><b style="margin-top: 10px ;color: red;">总价:{{ getPriceBySpec(soecCom.重量)*num1}}元</b></div>
+<!--              <div class="item22"><b style="margin-top: 10px ;color: red;">总价:{{ getPriceBySpec(soecCom.重量)*num1}}元</b></div>-->
 <!--              <div class="item22"><del style="margin-top: 10px; color: gray;">{{ productDetails.price }}.00元</del></div>-->
+              <div class="item22"><b style="margin-top: 10px ;color: red;">总价:{{ price*num1}}元</b></div>
+
 
             </div>
-            <div style="display: flex;justify-content: center;align-items: center;">
+            <div style="display: flex;justify-content: center;align-items: center; margin-bottom: 20px">
               <div style="width: 200px;height:60px; background-color: forestgreen;margin: 20px;
             display: flex;justify-content: center;align-items: center;" @click="addShip">
                 <h1 style="color: #FDFDFD">加入购物车</h1>
@@ -86,6 +88,28 @@
 
       </el-card>
     </div>
+    <div style="width: 1000px">
+      <el-collapse style="width:100%" v-model="activeNames" @change="handleChange">
+        <el-collapse-item style="width:100%;" title="一致性 Consistency" name="1">
+          <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
+          <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
+          <div v-html="richTextContent"></div>
+        </el-collapse-item>
+        <el-collapse-item title="反馈 Feedback" name="2">
+          <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
+          <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
+        </el-collapse-item>
+        <el-collapse-item title="效率 Efficiency" name="3">
+          <div>简化流程：设计简洁直观的操作流程；</div>
+          <div>清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；</div>
+          <div>帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。</div>
+        </el-collapse-item>
+        <el-collapse-item title="可控 Controllability" name="4">
+          <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
+          <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
+        </el-collapse-item>
+      </el-collapse>
+    </div>
   </div>
 </div>
 </template>
@@ -98,6 +122,7 @@ export default {
       FData:{
       },
       num1:1,
+      activeNames:'1',
       selectedSpecifications: {},
       selectedQuality: '',
       selectedFlavor:'',
@@ -105,7 +130,9 @@ export default {
       input:'',
       specificationsType:[],
       pi:{},
+      price:1062.99,
       soecCom:{},
+      richTextContent: '<p>这是一个富文本示例，包含<strong>文字样式</strong>和图片：</p><p><img style="width: 70%; padding: 30px;"  src="http://124.70.51.6:8000/static/OIP-C_1689177163120.924.jpg" alt="图片"></p>',
       specifications:[
           {
             "id": "1",
@@ -321,6 +348,9 @@ export default {
     }
   },
   methods: {
+    handleChange(val) {
+      console.log(val);
+    },
     addShip(){
       //添加到购物车
       console.log("加入购物车")
@@ -416,6 +446,7 @@ export default {
 </script>
 
 <style scoped>
+
 .details{
   margin-top: 20px;
   margin-left: 200px;

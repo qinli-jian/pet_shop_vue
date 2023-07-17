@@ -1,13 +1,8 @@
 <template>
   <div class="hello">
     <div class="page-shopping-cart">
-      <h4 class="cart-title">你亲爱的垃圾车</h4>
+      <h4 class="cart-title">购物车</h4>
 
-      <!--    <div class="cart-product-title clearfix">-->
-      <!--      <div class="td-check fl">-->
-      <!--        <el-checkbox v-model="isSelectAll" @change="selectAllProducts">{{ isSelectAll ? '取消全选' : '全选' }}</el-checkbox>-->
-      <!--      </div>-->
-      <!--    </div>-->
       <div class="cart-product clearfix">
         <el-table :data="productList">
           <el-table-column prop="select" width="70">
@@ -26,7 +21,6 @@
               <div class="product-info">
                 <h6>{{ scope.row.pro_name }}</h6>
                 <p>品牌：{{ scope.row.pro_brand }}&nbsp;&nbsp;产地：{{ scope.row.pro_place }}</p>
-<!--                <p>规格: {{ scope.row.pro_purity }}&nbsp;&nbsp;</p>-->
                 <p>规格:
                   <el-select v-model="scope.row.selectedSpec" placeholder="选择规格" size="mini" @change="updatePrice(scope.row)">
                     <el-option
@@ -43,7 +37,6 @@
           </el-table-column>
           <el-table-column label="数量" prop="pro_num">
             <template slot-scope="scope">
-
               <a href="javascript:;" class="num-reduce num-do fl" @click="scope.row.pro_num > 0 ? scope.row.pro_num-- : ''">
                 <span></span>
               </a>
@@ -51,7 +44,6 @@
               <a href="javascript:;" class="num-add num-do fr" @click="scope.row.pro_num++">
                 <span></span>
               </a>
-
             </template>
           </el-table-column>
           <el-table-column label="单价(元)" prop="pro_price">
@@ -72,7 +64,6 @@
         </el-table>
       </div>
       <div class="cart-product-info">
-        <!--      <el-checkbox v-model="isSelectAll" @change="selectAllProducts">{{ isSelectAll ? '取消全选' : '全选' }}</el-checkbox>-->
         <div class="td-check fl">
           <el-checkbox v-model="isSelectAll" @change="selectAllProducts">{{ isSelectAll ? '取消全选' : '全选' }}</el-checkbox>
         </div>
@@ -82,111 +73,63 @@
         <p class="fr product-total">￥{{ getTotalAmount() }}</p>
         <p class="fr check-num"><span>{{ getSelectedCount() }}</span>件商品总计（不含运费）：</p>
       </div>
-
     </div>
-
   </div>
 </template>
 
 <script>
+import {globalVar} from "@/utils/globalVar";
+
 export default {
   data() {
     return {
       productList: [
-        {
-          pro_image:require("@/assets/pic/2.jpg"),
-          pro_name: '瑞克',
-          pro_brand: '雪豹',
-          pro_place: '山里',
-          selectedSpec: '',
-
-          pro_depot: '上海仓海仓储',
-          pro_num: 1,
-          pro_price: 800,
-          select: false
-        },
-        {
-          pro_image:require("@/assets/pic/2.jpg"),
-          pro_name: '瑞克',
-          pro_brand: '雪豹',
-          pro_place: '山里',
-          pro_depot: '上海仓海仓储',
-          pro_num: 1,
-          pro_price: 800,
-          select: false
-        },
-        {
-          pro_image:require("@/assets/logo.png"),
-          pro_name: '瑞克',
-          pro_brand: '雪豹',
-          pro_place: '山里',
-
-          pro_depot: '上海仓海仓储',
-          pro_num: 1,
-          pro_price: 800,
-          select: false
-        },
-        {
-          'pro_image':require("@/assets/pic/2.jpg"),
-          'pro_name': '顶针',
-          'pro_brand': '雪豹',
-          'pro_place': '山里',
-          'pro_purity': '200g',
-
-          'pro_depot': '上海仓海仓储',
-          'pro_num': 1,
-          'pro_price': 800,
-          'select': false
-        },
-        {
-          'pro_image':require("@/assets/pic/2.jpg"),
-          'pro_name': '顶针',
-          'pro_brand': '雪豹',
-          'pro_place': '山里',
-          'pro_purity': '200g',
-
-          'pro_depot': '上海仓海仓储',
-          'pro_num': 1,
-          'pro_price': 800,
-          'select': false
-        }
+        // 商品列表数据
       ],
       specOptions: [], // 存储规格选项的数组
     };
   },
   created() {
-    // 从后端获取规格选项数据，并将其赋值给 specOptions 变量
-    // 例如，使用异步请求或其他方式获取数据
-    // 将数据赋值给 this.specOptions
+    // 初始化购物车数据，例如从后端获取购物车商品列表数据
+    this.fetchProductList();
+    // 初始化规格选项数据，例如从后端获取规格选项列表数据
+    this.fetchSpecOptions();
   },
   methods: {
+    fetchProductList() {
+      this.request.post(globalVar.HOST_NAME + '/user_order/details')
+    },
+    fetchSpecOptions() {
+      // 发送 HTTP 请求从后端获取规格选项列表数据
+      // 将获取到的数据赋值给 this.specOptions
+    },
     updatePrice(product) {
       // 根据选择的规格更新商品的价格
       const selectedSpec = product.selectedSpec;
-      // 根据选定的规格从后端或其他数据源获取对应的价格
-      // const price = /* 从后端或其他数据源获取价格 */;
-
-      // 更新商品的价格
-      product.pro_price = price;
-
+      // 发送 HTTP 请求或其他方式从后端获取选定规格的价格
+      // 将获取到的价格赋值给 product.pro_price
       // 更新商品的总价金额
-      product.totalPrice = price * product.pro_num;
+      product.totalPrice = product.pro_price * product.pro_num;
     },
-    back(){
-      this.$router.push('/home')
+    back() {
+      // 返回到其他页面的逻辑
     },
     deleteProduct(index) {
+      // 删除指定索引的商品
       this.productList.splice(index, 1);
     },
     deleteSelectedProducts() {
+      // 删除选中的商品
       this.productList = this.productList.filter((product) => !product.select);
     },
     selectAllProducts(value) {
+      // 全选/取消全选商品
       for (let i = 0; i < this.productList.length; i++) {
         this.productList[i].select = value;
       }
     },
     getTotalAmount() {
+      // 计算选中商品的总金额
       let total = 0;
       for (let i = 0; i < this.productList.length; i++) {
         const product = this.productList[i];
@@ -197,6 +140,7 @@ export default {
       return total.toFixed(2);
     },
     getSelectedCount() {
+      // 计算选中的商品数量
       let count = 0;
       for (let i = 0; i < this.productList.length; i++) {
         if (this.productList[i].select) {
@@ -204,7 +148,7 @@ export default {
         }
       }
       return count;
-    }
+    },
   },
   computed: {
     isSelectAll: {
@@ -213,9 +157,9 @@ export default {
       },
       set(value) {
         this.selectAllProducts(value);
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 
