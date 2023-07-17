@@ -3,26 +3,22 @@
         <div class="square">
             <el-form label-width="80px" :model="formData">
                 <el-form-item label="当前头像">
-                    <!--                    <el-avatar shape="square" :size="100"-->
-                    <!--                               :src="formData.avatar"></el-avatar>-->
-                    <!--                    <el-button type="text" @click="upAvatar">上传图片</el-button>-->
-                    <el-upload
-                        class="avatar-uploader"
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        :show-file-list="false"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload"
-                    >
-                        <div @mouseover="showText = true"
-                             @mouseleave="showText = false">
-                            <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="">
-                            <img v-else src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"
-                                 class="avatar" alt="">
-                            <span class="avatar-text" v-show="showText">点击修改头像</span>
-                        </div>
-
-                    </el-upload>
-
+<!--                    <el-upload-->
+<!--                        class="avatar-uploader"-->
+<!--                        action="https://jsonplaceholder.typicode.com/posts/"-->
+<!--                        :show-file-list="false"-->
+<!--                        :on-success="handleAvatarSuccess"-->
+<!--                        :before-upload="beforeAvatarUpload">-->
+<!--                        <div @mouseover="showText = true"-->
+<!--                             @mouseleave="showText = false">-->
+<!--                            <img v-if="imageUrl" :src="imageUrl" class="avatar" alt="">-->
+<!--                            <img v-else src="https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png"-->
+<!--                                 class="avatar" alt="">-->
+<!--                        </div>-->
+<!--                    </el-upload>-->
+                    <el-avatar shape="square" :size="100"  :src="avatar"></el-avatar>
+                    <el-button type="text" @click="$refs.uploadInput.click()">上传头像</el-button>
+                    <input type="file" ref="uploadInput" style="display: none" @change="handleFileChange" />
                 </el-form-item>
                 <el-form-item label="账号">
                     <el-input class="width" v-model="formData.account" :disabled="true"></el-input>
@@ -31,7 +27,7 @@
                     <el-input class="width" v-model="formData.name"></el-input>
                 </el-form-item>
                 <el-form-item label="年龄">
-                    <el-input-number v-model="formData.age" :min="1"></el-input-number>
+                    <el-input-number controls-position="right" v-model="formData.age" :min="1"></el-input-number>
                 </el-form-item>
                 <el-form-item label="性别">
                     <el-radio v-model="formData.sex" label="1">男</el-radio>
@@ -53,9 +49,11 @@ export default {
     name: "PersonalData",
     data() {
         return {
+            avatar: "", // 用于显示上传后的头像图片地址
+            file: null, // 用于保存上传的文件
             imageUrl: '',
             formData: {
-                avatar: '',
+
                 account: '',
                 name: '',
                 age: '',
@@ -70,38 +68,57 @@ export default {
     },
     methods: {
 
-        upAvatar() {
-
+        handleFileChange(event) {
+            this.file = event.target.files[0];
+            this.uploadAvatar(); // 选择文件后立即触发上传头像的方法
         },
-        handleAvatarSuccess(res, file) {
-            this.imageUrl = URL.createObjectURL(file.raw);
-        },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
+        uploadAvatar() {
+            if (!this.file) {
+                // 如果文件为空，不进行上传
+                return;
             }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
+
+            const formData = new FormData();
+            formData.append("image", this.file); // 将上传的文件添加到FormData
+            formData.append("user_id",localStorage.getItem('id'));
+            axios
+                .post(globalVar.HOST_NAME+"/user/uploadAvatar", formData, {
+
+                })
+                .then((response) => {
+                    // 处理上传成功的情况
+                    console.log(response);
+                    this.avatar = globalVar.STATIC_NAME + response.data.data.avatar; // 更新显示头像的URL
+                    console.log("上传头像成功！");
+                    console.log(this.avatar)
+                })
+                .catch((error) => {
+                    // 处理上传失败的情况
+                    console.error("上传头像失败:", error);
+                });
         },
+
         load() {
-            let userId = ''
+            var phone = sessionStorage.getItem("account");
+            phone = '15047418647';
+            var userId = sessionStorage.getItem("id");
+            userId = "";
             axios.get(globalVar.HOST_NAME + "/user/profile", {
                 params: {
-                    phone: '15047418647',
+                    phone: phone,
                     user_id: userId
                 }
             })
                 .then(response => {
                     this.formData = response.data.data;
+                    console.log(response.data.data);
+                    this.avatar = globalVar.STATIC_NAME + response.data.data.avatar; // 更新显示头像的URL
+                    console.log(this.avatar);
                     sessionStorage.setItem('account', response.data.data.account);
                     sessionStorage.setItem('id', response.data.data.id)
-                    console.log(sessionStorage.getItem('account'));
-                    console.log(sessionStorage.getItem('id'));
+                    //console.log(sessionStorage.getItem('account'));
+                    //console.log(sessionStorage.getItem('id'));
+
                     // console.log("表数据");
                     // console.log(this.formData);
                     // console.log(this.formData.age);
@@ -179,7 +196,7 @@ export default {
 .square {
     width: 800px;
     height: auto;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     padding: 30px;
 }
 
@@ -192,7 +209,7 @@ export default {
 }
 
 .width {
-    width: 400px;
+    width: 250px;
 }
 
 .avatar-uploader .el-upload:hover {
@@ -200,8 +217,8 @@ export default {
 }
 
 .avatar {
-    width: 178px;
-    height: 178px;
+    width: 70px;
+    height: 70px;
     display: block;
 }
 </style>

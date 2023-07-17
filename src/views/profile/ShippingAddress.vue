@@ -2,7 +2,7 @@
     <div class="box">
         <div class="square">
             <div>
-                <el-form label-width="100px" :model="formData">
+                <el-form label-width="100px" class="address-form-box" :model="formData">
                     <el-form-item
                         label="地址信息">
                         <el-cascader
@@ -310,6 +310,9 @@ export default {
 </script>
 
 <style scoped>
+.address-form-box{
+    
+}
 .box {
     width: 100%;
     height: 100%;
@@ -327,6 +330,6 @@ export default {
 }
 
 .width {
-    width: 400px;
+    width: 250px;
 }
 </style>

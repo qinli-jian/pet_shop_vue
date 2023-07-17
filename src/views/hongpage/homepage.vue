@@ -11,9 +11,10 @@
         <div class="header-3">
           <!-- 登录状态 -->
           <div v-if="isLoggedIn">
-          <el-button  type="text" style="width: 20px; margin-right: 20px; left: 10px;" @click="exit">
-            {{ username }} [退出]
+          <el-button  type="text" style="width: 20px; margin-right: 10px;" @click="toProfile">
+             {{ username }}
           </el-button>
+          <el-button type="text" style="width: 20px; margin-left: 20px;" @click="exit">[退出]</el-button>
           <el-button type="text" style="width: 20px; margin-left: 40px;" @click="gotoMessage">
             <i class="el-icon-chat-dot-round">新消息</i></el-button>
           <el-button type="text" style="width: 20px; margin-left: 40px;" @click="gotoShopping">
@@ -27,99 +28,195 @@
             </el-dropdown-menu>
           </el-dropdown>
           </div>
-          <!-- 未登录状态 -->
-          <div v-else>
-            <el-button type="text" style="width: 20px; margin-right: 10px;" @click="gotoLogin">[登录]</el-button>
-            <el-button type="text" style="width: 20px; margin-right: 10px;" @click="gotoRegister">[注册]</el-button>
+          <div class="header-3">
+            <!-- 登录状态 -->
+            <div v-if="isLoggedIn">
+              <el-button
+                type="text"
+                style="width: 20px; margin-right: 10px"
+                @click="toProfile"
+              >
+                {{ getUsername() }}
+              </el-button>
+              <el-button
+                type="text"
+                style="width: 20px; margin-left: 20px"
+                @click="exit"
+                >[退出]</el-button
+              >
+              <el-button
+                type="text"
+                style="width: 20px; margin-left: 40px"
+                @click="gotoMessage"
+              >
+                <i class="el-icon-chat-dot-round">新消息</i></el-button
+              >
+              <el-button
+                type="text"
+                style="width: 20px; margin-left: 40px"
+                @click="gotoShopping"
+              >
+                <i class="el-icon-shopping-cart-2">购物车</i></el-button
+              >
+              <el-dropdown style="margin-left: 20px" @command="handleCommand">
+                <el-button
+                  class="el-dropdown-link"
+                  type="text"
+                  style="margin-left: 20px"
+                  ><i class="el-icon-user">个人中心</i></el-button
+                >
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="a" @click.native="toOrderPage">我的订单</el-dropdown-item>
+                  <el-dropdown-item command="b">收货地址设置</el-dropdown-item>
+                  <el-dropdown-item command="c">阿巴阿巴</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+            <!-- 未登录状态 -->
+            <div v-else>
+              <el-button
+                type="text"
+                style="width: 20px; margin-right: 10px"
+                @click="gotoLogin"
+                >[登录]</el-button
+              >
+              <el-button
+                type="text"
+                style="width: 20px; margin-right: 10px"
+                @click="gotoRegister"
+                >[注册]</el-button
+              >
+            </div>
           </div>
-
         </div>
-      </div>
-    </el-header>
+      </el-header>
 
-    <el-main>
-      <router-view />
-    </el-main>
+      <el-main>
+        <router-view />
+      </el-main>
 
-    <el-footer style="margin: 40px 100px 50px 200px">
-      <div class="footer-container">
-        <div class="footer-content">
-          <h3>联系信息</h3>
-          <p>电话: 023-62652498</p>
-          <p>电子邮件: info@example.com</p>
-          <p>地址: 重庆市南岸区学府大道66号</p>
-        </div>
-        <div class="footer-content">
-          <h3>导航</h3>
-          <ul>
-            <li><a href="#">首页</a></li>
-            <li><a href="#">关于我们</a></li>
-            <li><a href="#">产品</a></li>
-            <li><a href="#">联系我们</a></li>
-          </ul>
-        </div>
-        <div class="footer-content">
-          <h3>社交媒体</h3>
-          <ul>
-            <li><a href="#"><i class="fab fa-facebook"></i></a></li>
-            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2023 Example Website. All Rights Reserved.</p>
-      </div>
-    </el-footer>
-  </el-container>
-</div>
+      <el-footer style="margin: 80px 260px 50px 160px">
+        <hr>
+        <div class="footer-container">
 
+          <div class="footer-content">
+            <h3>联系信息</h3>
+            <p>电话: 023-62652498</p>
+            <p>电子邮件: info@example.com</p>
+            <p>地址: 重庆市南岸区学府大道66号</p>
+          </div>
+          <div class="footer-content">
+            <h3>导航</h3>
+            <ul>
+              <li><a href="#">首页</a></li>
+              <li><a href="#">关于我们</a></li>
+              <li><a href="#">产品</a></li>
+              <li><a href="#">联系我们</a></li>
+            </ul>
+          </div>
+          <div class="footer-content">
+            <h3>社交媒体</h3>
+            <ul>
+              <li>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2023 Example Website. All Rights Reserved.</p>
+        </div>
+      </el-footer>
+    </el-container>
+  </div>
 </template>
 
 <script>
 export default {
   name: "homepage",
 
-  data(){
-    return{
-      isLoggedIn: true, // 根据登录状态设置为 true 或 false
-      username: '王小浩' // 根据登录用户设置用户名
-
+  data() {
+    return {
+      isLoggedIn: false, // 根据登录状态设置为 true 或 false
+      username: "王小浩", // 根据登录用户设置用户名
+    };
+  },
+  mounted() {
+    var id = localStorage.getItem("id");
+    if (id != undefined || id != null) {
+      this.isLoggedIn = true;
+    } else {
+      this.isLoggedIn = false;
     }
   },
 
   methods:{
-    gotoLogin(){
-      console.log("登录")
-      this.isLoggedIn=true
+    toProfile(){
+      this.$router.push('/account-management/personal-data').catch(err => {
+        console.log(err)
+      })
     },
-    gotoRegister(){
-      console.log("注册")
-    },
-    gotoShopping(){
+  methods: {
+    toOrderPage(){
       console.log("购物车")
+      this.$router.push({ path: "order" }).catch((err) => {
+        console.log(err);
+      });
     },
-    gotoMessage(){
-      console.log("消息")
+    getUsername() {
+      var name = localStorage.getItem("name");
+      return name;
     },
-    exit(){
-      console.log("退出")
-      this.isLoggedIn=false
+    toProfile() {
+      this.$router.push("/account-management/personal-data").catch((err) => {
+        console.log(err);
+      });
+    },
+    gotoLogin() {
+      console.log("登录");
+      this.isLoggedIn = true;
+      this.$router.push({ path: "/login" }).catch((err) => {
+        console.log(err);
+      });
+    },
+    gotoRegister() {
+      console.log("注册");
+    },
+    gotoShopping() {
+      console.log("购物车");
+      this.$router.push({ path: "/ShoppingCart" }).catch((err) => {
+        console.log(err);
+      });
+    },
+    gotoMessage() {
+      console.log("消息");
+    },
+    exit() {
+      console.log("退出");
+      this.isLoggedIn = false;
+      localStorage.removeItem("id")
+      localStorage.removeItem("name")
+      localStorage.removeItem("token")
     },
 
     handleCommand(command) {
-      console.log(command)
-    }
+      console.log(command);
+    },
   },
-
-}
+};
 </script>
 
 <style scoped>
-.icon{
+.icon {
   height: 30px;
 }
-.elheader1{
+.elheader1 {
   display: flex;
   /*align-items: center;*/
   align-items: flex-start;
@@ -127,11 +224,11 @@ export default {
   height: 30px !important;
   /*justify-content: flex-end;*/
 }
-.header-1{
+.header-1 {
   font-size: 14px;
   display: flex;
 }
-.header-2{
+.header-2 {
   display: flex;
   flex-direction: row;
   /*justify-content: center;*/
@@ -139,7 +236,7 @@ export default {
   margin-left: 10px; /* 设置左边距 */
   width: 800px;
 }
-.header-3{
+.header-3 {
   /*margin-top: 10px; !* 设置上方间距 *!*/
   /*margin-bottom: 10px; !* 设置下方间距 *!*/
   height: 30px !important;
@@ -149,12 +246,13 @@ export default {
   margin-right: 10px; /* 设置右边距 */
   margin-left: auto;
 }
-.header-4{
+.header-4 {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 .footer-container {
+  margin-top: 50px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -171,7 +269,8 @@ export default {
   margin-bottom: 10px;
 }
 
-.footer-content p, .footer-content ul {
+.footer-content p,
+.footer-content ul {
   margin: 0;
   padding: 0;
   list-style: none;

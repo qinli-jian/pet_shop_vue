@@ -14,8 +14,9 @@
     </div>
 
     <div style="padding:10px 0 ;margin-left: 200px; display: flex; justify-content: center; align-items: center;">
-      <el-input style="width: 200px " placeholder="请输入想要搜索的商品" suffix-icon="el-icon-search" class="ml-5" v-model="name" ></el-input>
-      <el-button   type="primary" @change="search"> 搜索</el-button>
+      <el-input style="width: 200px " placeholder="请输入想要搜索的商品" suffix-icon="el-icon-search" class="ml-5"
+                v-model="name" @keyup.enter.native="search" ></el-input>
+      <el-button   type="primary" @click="search"> 搜索</el-button>
 
     </div>
 
@@ -30,14 +31,15 @@
             <img :src="product.image"  class="product-image">
             <b style="margin-top: 20px " >{{ product.name }}</b>
             <b style="margin-top: 10px ;color: red;">{{ product.price }}元</b>
-            <del style="margin-top: 10px; color: gray;">{{ product.price }}.00元</del>
+            <b style="margin-top: 20px ">销量:{{product.selnum}}</b>
+<!--            <del style="margin-top: 10px; color: gray;">{{ product.price }}.00元</del>-->
             <!-- 其他商品信息 -->
 
           </div>
         </el-card>
       </div>
     </div>
-    <div style="padding:10px 0">
+    <div style="padding:10px 0 ;margin-left: 500px">
       <el-pagination
           @current-change="handleCurrentChange"
           :current-page="pageNum"
@@ -66,6 +68,25 @@ export default {
       kw:'',
       total:0,
       products: [
+        {
+          image:require('../../assets/images/5.png'),
+          name:'珍珠小马',
+          price:'199.00',
+          selnum:'120',
+        },
+        {
+          image:require('../../assets/images/5.png'),
+          name:'珍珠小马',
+          price:'199.00',
+          selnum:'120',
+        },
+        {
+          image:require('../../assets/images/5.png'),
+          name:'珍珠小马',
+          price:'199.00',
+          selnum:'120',
+        },
+        
       ]
     }
   },
@@ -95,6 +116,13 @@ export default {
       })
     },
     search(){
+      if (this.name!==''){
+        console.log(this.name)
+        this.$router.push({path:'searchgoods'}).catch(err => err)
+      }
+
+
+
 
     },
     toPath(path1){
