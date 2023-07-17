@@ -12,15 +12,14 @@
       </div>
 
       <div style="padding:10px 0 ;margin-left: 200px; display: flex; justify-content: center; align-items: center;">
-        <el-input style="width: 200px " placeholder="请输入想要搜索的商品" suffix-icon="el-icon-search" class="ml-5" v-model="name"></el-input>
+        <el-input style="width: 200px " placeholder="请输入想要搜索的商品" suffix-icon="el-icon-search" class="ml-5" v-model="name"
+                  @keyup.enter.native="search"></el-input>
         <el-button   type="primary" @click="search"> 搜索</el-button>
 
       </div>
 
     </div>
 <div>
-  <el-button @click="gotoproductDetails"> goto商品详情</el-button>
-  <el-button @click="gotoproducttest"> goto测试</el-button>
 </div>
 
   </div>
@@ -32,6 +31,7 @@ export default {
   data(){
     return{
       activeIndex: '/about',
+      name:'',
     }
 
   },
@@ -39,11 +39,18 @@ export default {
     toPath(path1){
       this.$router.push({path:path1}).catch(err => err)
     },
-    gotoproductDetails(){
-      this.$router.push({path:'/productdetails'}).catch(err => err)
-    },
-    gotoproducttest(){
-      this.$router.push({path:'/test'}).catch(err => err)
+    search(){
+      if (this.name!==''){
+        console.log(this.name)
+        this.$router.push({path:'searchgoods'}).catch(err => err)
+      }
+      else{
+        this.$notify({
+          title: '警告',
+          message: '这是一条警告的提示消息',
+          type: 'warning'
+        });
+      }
     }
 
   }
