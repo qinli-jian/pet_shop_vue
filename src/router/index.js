@@ -42,7 +42,7 @@ const routes = [
   //   component: home
   // },
   {
-    path:'/OrderDetails:order_id',
+    path:'/OrderDetails',
     name:'订单详情页',
     component: OrderDetails
   },
