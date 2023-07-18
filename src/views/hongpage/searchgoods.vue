@@ -256,7 +256,7 @@ export default {
     toDetails(id){
       const path1=globalVar.HOST_NAME+'/commodity/details'
       // this.$router.push({path:id}).catch(err => err)
-      this.$router.push({path:'productdetails'}).catch(err => err)
+      this.$router.push({name:"productdetails",path:'/frontpage/productdetails',query:{ID:id}}).catch(err => err)
       console.log('11111')
       console.log(id)
       console.log(path1)
@@ -351,7 +351,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  width: 300px;
+  width: 90%;
   height: 200px;
   margin: 10px;
 

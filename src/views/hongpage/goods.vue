@@ -303,7 +303,7 @@ export default {
 
     handleCurrentChange(pageNum){
       this.pageNum=pageNum
-      this.load()
+      this.getCommodity()
     },
     toDetails(id){
       this.$router.push({path:'productdetails',query:{ID:id}}).catch(err => err)
