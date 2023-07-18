@@ -54,7 +54,6 @@
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item command="a" @click.native="toOrderPage">我的订单</el-dropdown-item>
                   <el-dropdown-item command="b">收货地址设置</el-dropdown-item>
-                  <el-dropdown-item command="c">阿巴阿巴</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
@@ -81,7 +80,7 @@
         <router-view />
       </el-main>
 
-      <el-footer style="margin: 80px 260px 50px 160px">
+      <el-footer style="margin: 80px 260px 50px 160px" >
         <hr>
         <div class="footer-container">
 

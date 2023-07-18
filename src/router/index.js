@@ -53,11 +53,11 @@ const routes = [
     //     name: 'home',
     //     component: HomeView
     // },
-    {
-        path: '/order',
-        name: 'order',
-        component: order
-    },
+    // {
+    //     path: '/order',
+    //     name: 'order',
+    //     component: order
+    // },
     // {
     //     path: '/about',
     //     name: 'about',

@@ -1,10 +1,7 @@
 <template>
 <div >
   <!--  回到顶部-->
-  <div class="wrap">
-    <el-backtop target=".panel-card" :visibility-height="200" />
-    <!-- 下面是其他的 html 代码 -->
-  </div>
+
   <div style="height: 100px; display: flex; margin-top: 5px" >
     <div style=" margin-left: 500px">
       <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" >
@@ -15,9 +12,9 @@
     </div>
 
     <div style="padding:10px 0 ;margin-left: 200px; display: flex; justify-content: center; align-items: center;">
-      <el-input style="width: 200px " placeholder="请输入想要搜索的商品" suffix-icon="el-icon-search" class="ml-5" v-model="name"
-                @keyup.enter.native="search"></el-input>
-      <el-button   type="primary" @click="search"> 搜索</el-button>
+      <el-input style="width: 200px " placeholder="请输入想要搜索的商品" suffix-icon="el-icon-search" class="ml-5" v-model="kw"
+                @keyup.enter.native="search(kw)"></el-input>
+      <el-button   type="primary" @click="search(kw)"> 搜索</el-button>
 
     </div>
 
@@ -51,15 +48,15 @@
       <hr >
       <div style="display: flex; justify-content: space-between;flex-wrap: wrap;margin-top: 10px">
         <el-card v-for="product in products1" :key="product.id" class="person-card1" shadow="hover"
-                 @click.native="toDetails(product.value)" style="margin-left: 20px ;margin-top: 20px">
+                 @click.native="toDetails(product.id)" style="margin-left: 20px ;margin-top: 20px">
           <div class="card-content1">
             <div  class="item1">
-              <img :src="product.image"  class="product-image1">
+              <img :src="product.imgs"  class="product-image1">
             </div>
             <div class="item1" style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
-              <b style="margin-left: 5px" >{{ product.name }}</b>
-              <b style="margin-top: 5px ;color: red;">{{ product.price }}元</b>
-              <del style=" color: gray;">{{ product.price }}元</del>
+              <div class="product-name-container" style="margin-left: 5px" ><b>{{ product.name }}</b></div>
+              <b style="margin-top: 10px ;color: red;">{{ product.price }}元</b>
+              <del style=" color: gray;">{{ product.price*1.2 }}元</del>
               <!-- 其他商品信息 -->
             </div>
           </div>
@@ -72,14 +69,14 @@
       <hr>
       <div style="display: flex; justify-content: space-between;flex-wrap: wrap;margin-top: 10px">
         <el-card v-for="product in products2" :key="product.id" class="person-card1" shadow="hover"
-                 @click.native="toDetails(product.value)" style="margin-left: 20px ;margin-top: 20px">
+                 @click.native="toDetails(product.id)" style="margin-left: 20px ;margin-top: 20px">
           <div class="card-content1">
             <div  class="item1">
-              <img :src="product.image"  class="product-image1">
+              <img :src="product.imgs"  class="product-image1">
             </div>
             <div class="item1" style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
-              <b style="margin-left: 5px" >{{ product.name }}</b>
-              <b style="margin-top: 5px ;color: red;">{{ product.price }}元</b>
+              <div class="product-name-container" style="margin-left: 5px" ><b>{{ product.name }}</b></div>
+              <b style="margin-top: 10px ;color: red;">{{ product.price }}元</b>
               <del style=" color: gray;">{{ product.price }}元</del>
               <!-- 其他商品信息 -->
             </div>
@@ -92,15 +89,15 @@
       <b style="margin-top: 10px ;background-color:#C5DFF8;">热销商品</b>
       <hr>
       <div style="display: flex; justify-content: space-between;flex-wrap: wrap;margin-top: 10px">
-        <el-card v-for="product in products3" :key="product.value" class="person-card1" shadow="hover"
-                 style="margin-left: 20px ;margin-top: 20px; z-index: 100;"  @click.native="toDetails(product.value)">
+        <el-card v-for="product in products3" :key="product.id" class="person-card1" shadow="hover"
+                 style="margin-left: 20px ;margin-top: 20px; z-index: 100;"  @click.native="toDetails(product.id)">
           <div class="card-content1" >
             <div  class="item1" style="border-radius: 5px;">
-              <img :src="product.image"  class="product-image1">
+              <img :src="product.imgs"  class="product-image1">
             </div>
             <div class="item1" style="display: flex;flex-direction: column;justify-content: center;align-items: center;">
-              <b style="margin-left: 5px" >{{ product.name }}</b>
-              <b style="margin-top: 5px ;color: red;">{{ product.price }}元</b>
+              <div class="product-name-container" style="margin-left: 5px" ><b>{{ product.name }}</b></div>
+              <b style="margin-top: 10px ;color: red;">{{ product.price }}元</b>
               <del style=" color: gray;">{{ product.price }}元</del>
               <!-- 其他商品信息 -->
             </div>
@@ -116,88 +113,32 @@
 <script>
 
 import {globalVar} from "@/utils/globalVar"
-
-import axios from "axios";
 import request from "@/utils/request";
 
 export default {
   name: "firstPage",
   data(){
     return{
+
       globalVar:globalVar,
-      name,
       props:{
         expandTrigger:"hover"
       },
-      images: [
-        require('../../assets/images/5.png'),
-        require('../../assets/images/gta.png'),
-        require('../../assets/images/gta1.png'),
-        require('../../assets/images/O神.png'),
-        require('../../assets/images/yuanshen.png'),
-      ],
+      // images: [
+      //   require('../../assets/images/5.png'),
+      //   require('../../assets/images/gta.png'),
+      //   require('../../assets/images/gta1.png'),
+      //   require('../../assets/images/O神.png'),
+      //   require('../../assets/images/yuanshen.png'),
+      // ],
+      images:[],
       activeIndex: '/frontpage',
-
       categories:[],
-      products1: [
-        {
-          value:1,
-          name:'你买给狗狗都不吃，王浩吃',
-          price:'10.00'
-        },
-        {
-          value:1,
-          name:'你买给狗狗都不吃，王浩吃',
-          price:'10.00'
-        },
-        {
-          value:1,
-          name:'你买给狗狗都不吃，王浩吃',
-          price:'10.00'
-        },
-
-
-      ],
-      products2: [
-        {
-          value:1,
-          name:'你买给狗狗都不吃，王浩吃',
-          price:'10.99'
-        },
-        {
-          value:1,
-          name:'你买给狗狗都不吃，王浩吃',
-          price:'9.99'
-        },
-        {
-          value:1,
-          name:'你买给狗狗都不吃，王浩吃',
-          price:'10.00'
-        },
-
-
-      ],
-      products3: [
-        {
-          value:1,
-          name:'你买给狗狗都不吃，王浩吃',
-          price:'1000.00'
-        },
-        {
-          value:1,
-          name:'你买给狗狗都不吃，王浩吃',
-          price:'10.00'
-        },
-        {
-          value:1,
-          name:'你买给狗狗都不吃，王浩吃',
-          price:'10.00'
-        },
-
-
-      ],
-      PageSize:3,
-      PageNum:1,
+      products1: [],
+      products2: [],
+      products3: [],
+      pageSize:3,
+      pageNum:1,
       category_id:'',
       kw:'',
       selectedOptions:""
@@ -205,6 +146,10 @@ export default {
   },
   created() {
     this.getfenlei()
+    this.getImg()
+    this.getCommodity1()
+    this.getCommodity2()
+    this.getCommodity3()
   },  
   
   methods:{
@@ -213,9 +158,9 @@ export default {
     },
     //获取分类
     getfenlei(){
-      console.log(111)
+      console.log(111222)
       request.get(globalVar.HOST_NAME + "/commodity/getAllCategory").then(res=>{
-        console.log(res)
+        console.log(res.data)
         const categories = [];
 
         res.data.forEach((item) => {
@@ -242,26 +187,121 @@ export default {
         console.error('Error:', error);
       })
     },
+      getImg(){
+      request.get(globalVar.HOST_NAME+"/slide/slideShow").then(res=>{
+        console.log(res.data)
+        // 提取"image"字段并转换为图片路径数组
+        const imagePaths = res.data.map(item => item.image);
+        // 使用动态导入和require来引入图片资源
+        const images = imagePaths.map(imagePath => globalVar.STATIC_NAME + imagePath);
+        console.log(images); // 输出包含图片资源的数组
+        this.images=images
+
+      }).catch(error=>{
+        console.error('轮播图出错了!!!!', error);
+      })
+    },
+    //获取猜你喜欢的商品
     getCommodity1(){
+      request.get(globalVar.HOST_NAME+"/commodity/search",{
+        params:{
+          kw:this.kw,
+          category_id:this.category_id,
+          pageNum: this.pageNum,
+          pageSize:this.pageSize,
+        }
+      }).then(res=>{
 
+        const produces=res.data.map(produce=>{
+          if(produce.imgs){
+
+            produce.imgs=globalVar.STATIC_NAME+produce.imgs.split(',')[0];
+
+          }
+          return produce; // 返回处理后的元素
+        })
+        this.products1=res.data
+
+
+      }).catch(error=>{
+
+        console.error('喜欢出错了!!!!', error);
+      })
     },
+    //获取新品商品
     getCommodity2(){
+      request.get(globalVar.HOST_NAME+"/commodity/search",{
+        params:{
+          kw:this.kw,
+          category_id:this.category_id,
+          pageNum: this.pageNum,
+          pageSize:this.pageSize,
+          ranking:'P_DES'
+        }
+      }).then(res=>{
+        console.log("新评成功")
+        console.log(res)
+        const produces=res.data.map(produce=>{
+          console.log(produce.imgs)
+          if(produce.imgs.length!=0){
 
+            produce.imgs=globalVar.STATIC_NAME+produce.imgs.split(',')[0];
+            console.log(produce.imgs)
+          }
+          return produce; // 返回处理后的元素
+        })
+        console.log("pero")
+        console.log(produces)
+        this.products2=produces
+      }).catch(error=>{
+        console.error('新品出错了!!!!', error);
+      })
     },
+    //获取热销商品
     getCommodity3(){
+      request.get(globalVar.HOST_NAME+"/commodity/search",{
+        params:{
+          kw:this.kw,
+          category_id:this.category_id,
+          pageNum: this.pageNum,
+          pageSize:this.pageSize,
+          ranking:'S_DES'
+        }
+      }).then(res=>{
+        console.log(333)
+        const produces=res.data.map(produce=>{
+          if(produce.imgs){
 
+            produce.imgs=globalVar.STATIC_NAME+produce.imgs.split(',')[0];
+
+          }
+          return produce; // 返回处理后的元素
+        })
+        console.log(res.data)
+        this.products3=res.data
+      }).catch(error=>{
+        console.error('热销出错了!!!!', error);
+      })
     },
     toDetails(id){
-      const path=globalVar.HOST_NAME+'/commodity/details'
+      const path1=globalVar.HOST_NAME+'/commodity/details'
       // this.$router.push({path:id}).catch(err => err)
-      this.$router.push({path:'productdetails'}).catch(err => err)
+      this.$router.push({path:'productdetails',query:{ID:id}}).catch(err => err)
       console.log('11111')
       console.log(id)
+      console.log(path1)
     },
-    search(){
-      if (this.name!==''){
-        console.log(this.name)
-        this.$router.push({path:'searchgoods'}).catch(err => err)
+    search(kw){
+      if (kw!==''){
+        console.log(kw)
+        this.$router.push({path:'searchgoods', query: { kw:kw } }).catch(err => err)
+      }
+      else {
+        this.$message({
+          showClose: true,
+          center: true,
+          message: '请输入想要搜索的商品'
+        });
       }
 
     },
@@ -275,8 +315,11 @@ export default {
     handleCascaderChange(value){
       // 处理选择 value 的变化
       console.log('选择的 value：', value[1]);
-      this.selectedOptions = value;
+      console.log(value)
+      this.category_id = value[1];
+      console.log(this.category_id)
       console.log(value[value.length-1])
+      this.$router.push({path:'searchgoods', query: {L1_id:value[0],L2_id:value[1], categories:this.categories } }).catch(err => err)
     }
 
   },
@@ -353,6 +396,19 @@ export default {
 .wrap {
   height: 100%;
   overflow-x: hidden;
+}
+/* 容器样式 */
+.product-name-container {
+  max-width: 100px; /* 自定义容器的最大宽度 */
+  white-space: nowrap; /* 防止商品名称换行 */
+  overflow: hidden;
+  text-overflow: ellipsis; /* 使用省略号来处理文本溢出 */
+}
+
+/* 悬停时显示完整文本 */
+.product-name-container:hover {
+  white-space: normal;
+  overflow: visible;
 }
 
 </style>
