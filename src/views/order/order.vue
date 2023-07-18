@@ -81,9 +81,10 @@
                                     <td colspan="" :rowspan="item.commodity_list.length" headers=""
                                         class="goods_handle body_content_handle">
                                         <p class="click change-color-on-hover">
-                                            <span @click="afterSale">
+                                            <span @click="afterSale(item.order_id)">
                                                 申请售后
-                                            </span></p>
+                                            </span>
+                                        </p>
                                         <p class="click change-color-on-hover" @click="complainSeller">投诉卖家</p>
                                     </td>
                                     <td colspan="" :rowspan="item.commodity_list.length" headers=""
@@ -226,8 +227,8 @@ export default {
         viewGood() {
 
         },
-        afterSale() {
-
+        afterSale(orderId) {
+            this.$router.push({ name: '申请售后', params: { order_id: orderId } });
         },
         viewLogistics() {
 

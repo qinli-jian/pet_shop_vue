@@ -41,11 +41,11 @@ const routes = [
     name: '忘记密码',
     component: UserForget
   },
-  {
-    path:'/home',
-    name:'jjj',
-    component: home
-  },
+  // {
+  //   path:'/home',
+  //   name:'home',
+  //   component: home
+  // },
   {
     path:'/OrderDetails:order_id',
     name:'订单详情页',
