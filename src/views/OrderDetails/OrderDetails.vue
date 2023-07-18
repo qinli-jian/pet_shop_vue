@@ -113,7 +113,7 @@ export default {
     }
     this.request.get( globalVar.HOST_NAME + '/user_order/details',{
       params:param
-    })  // 替换为你的后端 API 地址
+    })  // 替换为后端 API 地址
         .then(response => {
           this.$message.success("获取成功");
           console.log(response.data);
@@ -126,7 +126,6 @@ export default {
           this.order.status=response.data.latest_status.status_description;
           this.order.logisticsCompany=response.data.logistics_company;
           this.order.waybillNumber=response.data.waybill;
-
           // 遍历 order_status 数组并进行判断
           let isDelivered = false;
           for (const status of response.data.order_status) {
@@ -158,13 +157,9 @@ export default {
             };
             this.order.items.push(newItem);
           }
-
           //结尾
-
           this.order.totalPrice=response.data.total_price;
           this.order.actualPayment=response.data.total_price;
-
-
           this.currentStep=response.data.latest_status.status_id;
 
           this.completeTime=response.data.latest_status.create_time;
@@ -209,6 +204,11 @@ export default {
 .MainBack {
   background-color: rgba(241, 238, 238, 0.98);
   overflow: hidden;
+  margin: 20px 100px ;
+
+
+
+
 
 }
 </style>
