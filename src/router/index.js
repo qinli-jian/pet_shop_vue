@@ -22,11 +22,6 @@ const routes = [
   //   redirect: ('/ApplyAfterSales')
   // },
   {
-    path:'/ShoppingCart',
-    name:'购物车',
-    component: ShoppingCart
-  },
-  {
     path: '/login',
     name: '登陆',
     component: UserLogin
@@ -41,13 +36,13 @@ const routes = [
     name: '忘记密码',
     component: UserForget
   },
+  // {
+  //   path:'/home',
+  //   name:'home',
+  //   component: home
+  // },
   {
-    path:'/home',
-    name:'jjj',
-    component: home
-  },
-  {
-    path:'/OrderDetails',
+    path:'/OrderDetails:order_id',
     name:'订单详情页',
     component: OrderDetails
   },
@@ -61,24 +56,20 @@ const routes = [
     //     name: 'home',
     //     component: HomeView
     // },
-    {
-        path: '/order',
-        name: 'order',
-        component: order
-    },
+    
     {
         path: '/',
         name: 'homepage',
         component: () => import('../views/hongpage/homepage.vue'),
-        redirect: "/ApplyAfterSales",
+        redirect: "/firstpage",
         children: [
             {
                 path: 'order',
                 name: 'order',
                 component: order
             },{
-                path: 'frontpage',
-                name: 'frontpage',
+                path: 'firstpage',
+                name: 'firstpage',
                 component: () => import('../views/hongpage/first_page.vue')
             },
             {
