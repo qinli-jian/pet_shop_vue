@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import HomeView from '../views/HomeView.vue'
 import profile from '../views/profile/home'
 import securitySetting from "@/views/profile/SecuritySetting";
 import PersonalData from "@/views/profile/PersonalData";
@@ -10,44 +9,48 @@ import UserLogin from "@/views/register/UserLogin";
 import UserRegister from "@/views/register/UserRegister";
 import UserForget from "@/views/register/UserForget";
 import ShoppingCart from "@/views/ShoppingCart/ShoppingCart"
-import home from "@/views/ShoppingCart/home";
-import OrderDetails from "@/views/OrderDetails/OrderDetails";
+import OrderDetails from  "@/views/OrderDetails/OrderDetails";
 import ApplyAfterSales from "@/views/ApplyAfterSales/ApplyAfterSales";
 
 
 Vue.use(VueRouter)
 
 const routes = [
-    {
-        path: '/login',
-        name: '登陆',
-        component: UserLogin
-    },
-    {
-        path: '/UserRegister',
-        name: '注册',
-        component: UserRegister
-    },
-    {
-        path: '/UserForget',
-        name: '忘记密码',
-        component: UserForget
-    },
-    //   {
-    //     path:'/home',
-    //     name:'jjj',
-    //     component: home
-    //   },
-    {
-        path: '/OrderDetails',
-        name: '订单详情页',
-        component: OrderDetails
-    },
-    {
-        path: '/ApplyAfterSales',
-        name: '申请售后',
-        component: ApplyAfterSales
-    },
+  // {
+  //   path: '/',
+  //   name: '主页',
+  //   redirect: ('/ApplyAfterSales')
+  // },
+  {
+    path: '/login',
+    name: '登陆',
+    component: UserLogin
+  },
+  {
+    path: '/UserRegister',
+    name:'注册',
+    component: UserRegister
+  },
+  {
+    path:'/UserForget',
+    name: '忘记密码',
+    component: UserForget
+  },
+  // {
+  //   path:'/home',
+  //   name:'home',
+  //   component: home
+  // },
+  {
+    path:'/OrderDetails',
+    name:'订单详情页',
+    component: OrderDetails
+  },
+  {
+    path:'/ApplyAfterSales',
+    name:'申请售后',
+    component: ApplyAfterSales
+  },
     // {
     //     path: '/',
     //     name: 'home',
@@ -70,15 +73,15 @@ const routes = [
         path: '/',
         name: 'homepage',
         component: () => import('../views/hongpage/homepage.vue'),
-        redirect: "/frontpage",
+        redirect: "/firstpage",
         children: [
             {
                 path: 'order',
                 name: 'order',
                 component: order
             },{
-                path: 'frontpage',
-                name: 'frontpage',
+                path: 'firstpage',
+                name: 'firstpage',
                 component: () => import('../views/hongpage/first_page.vue')
             },
             {
@@ -111,6 +114,7 @@ const routes = [
                 name: 'profile',
                 component: profile,
                 // redirect: "/security_setting",
+
                 children: [{
                         path: '/account-management/security-setting',
                         name: 'security-setting',
