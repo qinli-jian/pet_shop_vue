@@ -69,7 +69,6 @@
           <el-checkbox v-model="isSelectAll" @change="selectAllProducts">{{ isSelectAll ? '取消全选' : '全选' }}</el-checkbox>
         </div>
         <a class="delete-product" href="javascript:;" @click="deleteSelectedProducts"><span></span>删除所选商品</a>
-        <a class="keep-shopping" href="#" @click="back"><span></span>继续购物</a>
         <a class="btn-buy fr" href="javascript:;"   type="text" @click="showCheckoutModal">去结算</a>
         <div >
 
@@ -147,6 +146,7 @@ export default {
       specOptions: [], // 存储规格选项的数组
       fixedSepcOptions:[],
       currentAdressId:'',
+      returnData:[]
     };
   },
   created() {
@@ -165,11 +165,13 @@ export default {
       let _this = this;
       this.request.get(globalVar.HOST_NAME+'/user/addresslist',{params:param}).then(response => {
        this.$message.success("打开地址目录")
+        console.log("我的前地址是"+response.data)
         console.log(response.data)
         _this.tableData=response.data;
+        console.log(_this.tableData)
+
         _this.dialogTableVisible = true;
-        // _this.$forceUpdate();
-       // 显示弹框
+
       }).catch(error => {
         console.error("打开地址目录失败");
       });
@@ -184,32 +186,90 @@ export default {
       }
 
     },
+    // 获取不同的选中的购物车id
     getSelectShopCartId(){
-      var selectShopCartId=[]
+      var temp=[]
       for(var i = 0;i<this.productList.length;i++){
         var item = this.productList[i];
         if(item.select){
-          selectShopCartId.push(item.id)
+          temp.push(item.id)
         }
       }
-      return selectShopCartId;
+      return temp;
     },
+    // 获取不同选中商品id
+    getCommodityId(){
+      var temp=[]
+      for(var i = 0;i<this.productList.length;i++){
+        var item = this.productList[i];
+        if(item.select){
+          temp.push(item.specification_price.commodity_id)
+        }
+      }
+      return temp;
+    },
+    // 获取选中不同规格价格id
+    getSpeId(){
+      let temp=[]
+      for(let i = 0;i<this.productList.length;i++){
+        let item = this.productList[i];
+        if(item.select){
+          temp.push(item.all_specification_price.specification_price_id)
+        }
+      }
+      console.log("获取的不同的规格id")
+      console.log(temp)
+      return temp;
+    },
+
+    //获取选中的每件商品的数量
+    getaccount(){
+      var temp=[]
+      for(var i = 0;i<this.productList.length;i++){
+        var item = this.productList[i];
+        if(item.select){
+          console.log("account"+item.amount)
+          temp.push(item.amount)
+        }
+      }
+      return temp;
+    },
+
     submitOrder() {
+      for(var i = 0;i<this.productList.length ; i++){
+        if(this.productList[i].select === true){
+          var commodity = {}; // 初始化为一个空对象
+          commodity["num"] = this.productList[i].amount;
+          commodity["user_id"] = this.productList[i].user_id;
+          commodity["specification_price_id"] = this.productList[i].specification_price.id;
+          commodity["commodity_id"] = this.productList[i].specification_price.commodity_id;
+          commodity["order_address_id"] = this.currentAdressId;
+          this.returnData.push(commodity);
+        }
+      }
+      console.log("传入接口的数据")
+      console.log(this.returnData)
       console.log(this.currentAdressId)
       // 购物车ID，用户ID
       const selectShopCartId = this.getSelectShopCartId();
       console.log("购物车ID列表")
       console.log(selectShopCartId)
 
+
       if (this.currentAdressId!=='') {
-        // 提交订单逻辑
         console.log('选择的地址:', this.currentAdressId);
+        // 提交订单逻辑
+        const param=this.returnData
         // 向后端发送提交订单请求
-        // this.request.post('/api/submitOrder', { address: this.currentAdressId }).then(response => {
-        //   console.log('订单提交成功');
-        // }).catch(error => {
-        //   console.error('订单提交失败', error);
-        // });
+        this.request.post(globalVar.HOST_NAME+'/user_order/create_all', param).then(response => {
+          console.log('订单提交成功');
+          this.$message.success("订单提交成功")
+          this.dialogTableVisible=false;
+
+        }).catch(error => {
+          this.$message.error("订单提交失败")
+          console.error('订单提交失败', error);
+        });
       } else {
         this.$message.warning('请选择收货地址');
       }
@@ -229,11 +289,14 @@ export default {
       this.request.post(globalVar.HOST_NAME+'/shopcart/changeShopCart',param)
           .then(response=>{
         this.$message.success("提交修改成功");
+
             this.fetchProductList();
+            this.currentShopCart=-1
 
       }).catch(error=>{
         this.$message.error("提交修改失败")
       })
+
     },
     changeInfo(shopCartId){
       console.log("shopCartId")
@@ -353,34 +416,33 @@ export default {
       })
 
     },
-    // deleteSelectedProducts() {
-    //   // 删除选中的商品
-    //   this.productList = this.productList.filter((product) => !product.select);
-    // },
     deleteSelectedProducts() {
       // 获取选中的商品
       const selectedProducts = this.productList.filter((product) => product.select);
-
       if (selectedProducts.length === 0) {
+        console.log("请选中商品")
         return; // 如果没有选中的商品，则不执行删除操作
       }
-
       const selectedShopCartIds = selectedProducts.map((product) => product.id);
-
       // 发送请求到后端删除选中的商品数据
-      const param = {
-        shop_cart_id: selectedShopCartIds // 将选中的购物车ID作为参数传递给后端
+      console.log(selectedShopCartIds);
+      let params_ids = {
+        ids: selectedShopCartIds // 将选中的购物车ID作为参数传递给后端
       };
-
-      this.request.delete(globalVar.HOST_NAME + '/shopcart/deleteShopCart', { params: param })
+      this.request({url:globalVar.HOST_NAME + '/shopcart/batchdelete',method:"DELETE", data:params_ids})
           .then(response => {
-            this.$message.success("删除成功");
-
+            console.log(response)
+            if(response.code==="200"){
+              this.$message.success("批量删除成功");
+              this.fetchProductList();
+            }else{
+              this.$message.warning("批量删除失败")
+            }
             // 在前端更新商品列表，删除选中的商品
-            this.productList = this.productList.filter((product) => !product.select);
+            // this.productList = this.productList.filter((product) => !product.select);
           })
           .catch(error => {
-            this.$message.error("删除失败");
+            this.$message.error("批量删除失败");
           });
     },
 
@@ -394,19 +456,8 @@ export default {
       }
       this.$forceUpdate();
     },
-    getTotalAmount() {
-      console.log(this.productList)
-      // 计算选中商品的总金额
-      let total = 0;
-      for (let i = 0; i < this.productList.length; i++) {
-        const product = this.productList[i];
-        if (product.select) {
-          total += product.totalPrice;
-        }
-      }
-      return total.toFixed(2);
-    },
     getSelectedCount() {
+      console.log("shabo")
       console.log(this.productList)
       var sumPrice = 0;
       // 计算选中的商品数量
