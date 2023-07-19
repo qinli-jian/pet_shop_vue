@@ -6,7 +6,7 @@
         <div class="header-1">
           <div class="header-2">
             <img src="../../assets/images/ruke5.png" class="icon" alt="Icon" />
-            <el-link href="/" target="_blank" type="primary" style="font-size: 12px">
+            <el-link href="/" type="primary" style="font-size: 12px;z-index: 999;">
               顶针的动物朋友</el-link>
           </div>
           <div class="header-3">
@@ -42,7 +42,7 @@
         <router-view />
       </el-main>
 
-      <el-footer style="margin: 80px 260px 50px 160px" >
+      <el-footer style="margin: 80px 260px 50px 160px" v-if="$route.path!=='/chat'" >
         <hr>
         <div class="footer-container">
           <div class="footer-content">
@@ -143,6 +143,9 @@ export default {
     },
     gotoMessage() {
       console.log("消息");
+      this.$router.push({ path: "/chat" }).catch((err) => {
+        console.log(err);
+      });
     },
     exit() {
       console.log("退出");
