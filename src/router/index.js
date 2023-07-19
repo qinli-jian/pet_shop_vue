@@ -16,50 +16,79 @@ import ApplyAfterSales from "@/views/ApplyAfterSales/ApplyAfterSales";
 Vue.use(VueRouter)
 
 const routes = [
-
-    {
-        path: '/login',
-        name: '登陆',
-        component: UserLogin
-    },
-    {
-        path: '/UserRegister',
-        name: '注册',
-        component: UserRegister
-    },
-    {
-        path: '/UserForget',
-        name: '忘记密码',
-        component: UserForget
-    },
-    {
-        path: '/OrderDetails',
-        name: '订单详情页',
-        component: OrderDetails
-    },
-    {
-        path: '/ApplyAfterSales',
-        name: '申请售后',
-        component: ApplyAfterSales
-    },
-    {
-        path: '/order',
-        name: 'order',
-        component: order
-    },
+  // {
+  //   path: '/',
+  //   name: '主页',
+  //   redirect: ('/ApplyAfterSales')
+  // },
+  {
+    path: '/login',
+    name: '登陆',
+    component: UserLogin
+  },
+  {
+    path: '/UserRegister',
+    name:'注册',
+    component: UserRegister
+  },
+  {
+    path:'/UserForget',
+    name: '忘记密码',
+    component: UserForget
+  },
+  // {
+  //   path:'/home',
+  //   name:'home',
+  //   component: home
+  // },
+  
+  
+    // {
+    //     path: '/',
+    //     name: 'home',
+    //     component: HomeView
+    // },
+    // {
+    //     path: '/order',
+    //     name: 'order',
+    //     component: order
+    // },
+    // {
+    //     path: '/about',
+    //     name: 'about',
+    //     // route level code-splitting
+    //     // this generates a separate chunk (about.[hash].js) for this route
+    //     // which is lazy-loaded when the route is visited.
+    //     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    // },
     {
         path: '/',
         name: 'homepage',
         component: () => import('../views/hongpage/homepage.vue'),
-        redirect: "/ApplyAfterSales",
+        redirect: "/firstpage",
         children: [
+            {
+                path:'/ApplyAfterSales',
+                name:'申请售后',
+                component: ApplyAfterSales
+              },
+            {
+                path:'/OrderDetails',
+                name:'订单详情页',
+                component: OrderDetails
+              },
+            {
+                path: 'chat',
+                name: 'chat',
+                component: () => import('../views/chatView/chatView.vue')
+            },
             {
                 path: 'order',
                 name: 'order',
                 component: order
             },{
-                path: 'frontpage',
-                name: 'frontpage',
+                path: 'firstpage',
+                name: 'firstpage',
                 component: () => import('../views/hongpage/first_page.vue')
             },
             {
@@ -83,15 +112,16 @@ const routes = [
                 component: () => import('../views/hongpage/product_details.vue')
             },
             {
-                path: 'test',
-                name: 'test',
-                component: () => import('../views/hongpage/test.vue')
+                path: 'searchgoods',
+                name: 'searchgoods',
+                component: () => import('../views/hongpage/searchgoods.vue')
             },
             {
                 path: '/account-management',
                 name: 'profile',
                 component: profile,
                 // redirect: "/security_setting",
+
                 children: [{
                         path: '/account-management/security-setting',
                         name: 'security-setting',
