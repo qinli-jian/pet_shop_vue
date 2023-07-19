@@ -12,9 +12,9 @@
       </div>
 
       <div style="padding:10px 0 ;margin-left: 200px; display: flex; justify-content: center; align-items: center;">
-        <el-input style="width: 200px " placeholder="请输入想要搜索的商品" suffix-icon="el-icon-search" class="ml-5" v-model="name"
-                  @keyup.enter.native="search"></el-input>
-        <el-button   type="primary" @click="search"> 搜索</el-button>
+        <el-input style="width: 200px " placeholder="请输入想要搜索的商品" suffix-icon="el-icon-search" class="ml-5" v-model="kw"
+                  @keyup.enter.native="search(kw)"></el-input>
+        <el-button   type="primary" @click="search(kw)"> 搜索</el-button>
 
       </div>
 
@@ -31,7 +31,7 @@ export default {
   data(){
     return{
       activeIndex: '/about',
-      name:'',
+      kw:'',
     }
 
   },
@@ -40,9 +40,9 @@ export default {
       this.$router.push({path:path1}).catch(err => err)
     },
     search(){
-      if (this.name!==''){
-        console.log(this.name)
-        this.$router.push({path:'searchgoods'}).catch(err => err)
+      if (this.kw!==''){
+        console.log(this.kw)
+        this.$router.push({path:'searchgoods',query:{kw:this.kw}}).catch(err => err)
       }
       else{
         this.$notify({
