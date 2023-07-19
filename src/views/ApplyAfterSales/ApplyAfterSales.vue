@@ -194,10 +194,11 @@ export default {
 
 .refund-form {
 
-  background-color: #cccccc;
+  background-color: rgba(241, 238, 238, 0.98);
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 20px 200px;
 
 }
 
@@ -215,12 +216,13 @@ export default {
 .product-info {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin:20px 40px;
+
 }
 
 .product-image {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   margin-right: 10px;
 }
 
