@@ -1,12 +1,7 @@
 ﻿<template>
   <div class="box">
     <div>
-      <el-menu
-        :default-active="activeIndex"
-        class="el-menu-demo"
-        mode="horizontal"
-        @select="handleSelect"
-      >
+      <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
         <el-menu-item index="1">所有订单</el-menu-item>
         <el-menu-item index="2">待付款</el-menu-item>
         <el-menu-item index="3">待发货</el-menu-item>
@@ -16,39 +11,16 @@
     </div>
     <div style="margin-top: 15px">
       <div class="left flexbox">
-        <el-input
-          placeholder="请输入商品标题或订单号进行搜索"
-          v-model="selectTitle"
-          class="input-with-select"
-          style="width: 300px"
-        >
-          <el-button
-            slot="append"
-            icon="el-icon-search"
-            @click="select"
-          ></el-button>
+        <el-input placeholder="请输入商品标题或订单号进行搜索" v-model="selectTitle" class="input-with-select" style="width: 300px">
+          <el-button slot="append" icon="el-icon-search" @click="select"></el-button>
         </el-input>
-        <p
-          style="margin-left: 10px"
-          @click="ontrue"
-          class="click change-color-on-hover"
-          v-show="!isshowmore"
-        >
+        <p style="margin-left: 10px" @click="ontrue" class="click change-color-on-hover" v-show="!isshowmore">
           更多搜索条件
         </p>
-        <p
-          style="margin-left: 10px"
-          @click="ontrue"
-          class="click change-color-on-hover"
-          v-show="isshowmore"
-        >
+        <p style="margin-left: 10px" @click="ontrue" class="click change-color-on-hover" v-show="isshowmore">
           精简搜索条件
         </p>
-        <p
-          style="margin-left: 10px"
-          @click="reload"
-          class="click change-color-on-hover"
-        >
+        <p style="margin-left: 10px" @click="reload" class="click change-color-on-hover">
           重置搜索
         </p>
       </div>
@@ -56,28 +28,14 @@
       <div v-show="isshowmore" style="margin-top: 30px">
         <div>
           <span>成交时间</span>
-          <el-date-picker
-            style="margin-left: 10px"
-            v-model="date"
-            type="daterange"
-            align="right"
-            unlink-panels
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            :picker-options="pickerOptions"
-          >
+          <el-date-picker style="margin-left: 10px" v-model="date" type="daterange" align="right" unlink-panels
+            range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions">
           </el-date-picker>
         </div>
 
         <div style="margin-top: 20px">
           <span>交易状态</span>
-          <el-select
-            v-model="selectType"
-            slot="prepend"
-            placeholder="请选择"
-            style="width: auto; margin-left: 10px"
-          >
+          <el-select v-model="selectType" slot="prepend" placeholder="请选择" style="width: auto; margin-left: 10px">
             <el-option label="已取消" value="1"></el-option>
             <el-option label="已下单" value="2"></el-option>
             <el-option label="待支付" value="3"></el-option>
@@ -115,12 +73,7 @@
                 </tr>
               </tbody>
             </table>
-            <div
-              v-for="(item, index) in list"
-              :key="index"
-              class="order-body"
-              v-if="list && list.length"
-            >
+            <div v-for="(item, index) in list" :key="index" class="order-body" v-if="list && list.length">
               <table class="body_top">
                 <tbody>
                   <br />
@@ -129,15 +82,10 @@
                       <span class="top_con_time">{{
                         item.create_time.substring(0, 10)
                       }}</span>
-                      <span class="top_con_num"
-                        >订单号：{{ item.order_id }}</span
-                      >
+                      <span class="top_con_num">订单号：{{ item.order_id }}</span>
                     </div>
                     <div class="top_con_del">
-                      <i
-                        class="el-icon-delete"
-                        @click="deleteOrder(item.order_id)"
-                      ></i>
+                      <i class="el-icon-delete" @click="deleteOrder(item.order_id)"></i>
                     </div>
                   </div>
                 </tbody>
@@ -146,12 +94,7 @@
                 <tbody>
                   <tr class="body_content">
                     <div v-for="(work, ind) in item.commodity_list" :key="ind">
-                      <td
-                        colspan=""
-                        rowspan=""
-                        headers=""
-                        class="body_content_info"
-                      >
+                      <td colspan="" rowspan="" headers="" class="body_content_info">
                         <div class="info_box">
                           <div class="info_box_img" @click="viewGood(work)">
                             <img :src="static_name + work.image" alt="" />
@@ -161,163 +104,86 @@
                               <span>{{ work.commodity_name }}</span>
                             </p>
                             <p class="attr">
-                              <span
-                                v-for="(itm, iid) in work.specification"
-                                :key="iid"
-                              >
+                              <span v-for="(itm, iid) in work.specification" :key="iid">
                                 <span>{{ itm.type }}：{{ itm.value }}</span>
                               </span>
                             </p>
                           </div>
                         </div>
                       </td>
-                      <td
-                        colspan=""
-                        rowspan=""
-                        headers=""
-                        class="order_price body_content_price"
-                      >
+                      <td colspan="" rowspan="" headers="" class="order_price body_content_price">
                         <p>￥{{ work.price }}</p>
                       </td>
-                      <td
-                        colspan=""
-                        rowspan=""
-                        headers=""
-                        class="order_num body_content_num"
-                      >
+                      <td colspan="" rowspan="" headers="" class="order_num body_content_num">
                         <p>{{ work.num }}</p>
                       </td>
-                      <td
-                        colspan=""
-                        rowspan=""
-                        headers=""
-                        class="goods_handle body_content_handle"
-                      >
+                      <td colspan="" rowspan="" headers="" class="goods_handle body_content_handle">
+
+                        <p class="click change-color-on-hover">
+                          <span>
+                            <el-button
+                              :disabled="!(item.status.status_description === '已签收' || item.status.status_description === '交易成功')"
+                              :type="item.status.status_description === '已签收' || item.status.status_description === '交易成功' ? 'primary' : 'info'"
+                              plain @click="comment(index, work)">追加评论</el-button>
+                          </span>
+                        </p>
+
                         <p class="click change-color-on-hover">
                           <span @click="afterSale(item, work)"> 申请售后 </span>
-                        </p>
-                        <p
-                          v-if="
-                            item.status.status_description === '已签收' ||
-                            item.status.status_description === '交易成功'
-                          "
-                          class="click change-color-on-hover"
-                        >
-                          <span>
-                            <el-button @click="comment(index, work)"
-                              >追加评论</el-button
-                            >
-                          </span>
                         </p>
                       </td>
                     </div>
 
-                    <td
-                      colspan=""
-                      :rowspan="item.commodity_list.length"
-                      headers=""
-                      class="real_pay body_content_pay"
-                    >
+                    <td colspan="" :rowspan="item.commodity_list.length" headers="" class="real_pay body_content_pay">
                       <p class="price">
                         <span
-                          data-reactid=".0.7:$order-3439077948206595114.$3439077948206595114.0.1:1:0.$0.$1.0.1.0"
-                          >￥</span
-                        >{{ item.total_price }}
+                          data-reactid=".0.7:$order-3439077948206595114.$3439077948206595114.0.1:1:0.$0.$1.0.1.0">￥</span>{{
+                            item.total_price }}
                       </p>
                       <!--                                        <p class="postage">(含运费：￥{{ item.postage }})</p>-->
                       <p class="postage">(含运费：￥0.00)</p>
                     </td>
-                    <td
-                      colspan=""
-                      :rowspan="item.commodity_list.length"
-                      headers=""
-                      class="order_status body_content_status"
-                    >
+                    <td colspan="" :rowspan="item.commodity_list.length" headers=""
+                      class="order_status body_content_status">
                       <p>
-                        <span v-if="item.status.status_description === '已取消'"
-                          ><el-tag type="warning">订单已取消</el-tag></span
-                        >
-                        <span v-if="item.status.status_description === '已下单'"
-                          ><el-tag type="success">已下单</el-tag></span
-                        >
-                        <span v-if="item.status.status_description === '待支付'"
-                          ><el-tag type="info">待支付</el-tag></span
-                        >
-                        <span v-if="item.status.status_description === '已支付'"
-                          ><el-tag type="success">已支付</el-tag></span
-                        >
-                        <span v-if="item.status.status_description === '出货中'"
-                          ><el-tag type="">出货中</el-tag></span
-                        >
-                        <span v-if="item.status.status_description === '已发货'"
-                          ><el-tag type="info">已发货</el-tag></span
-                        >
-                        <span v-if="item.status.status_description === '运输中'"
-                          ><el-tag type="info">运输中</el-tag></span
-                        >
-                        <span v-if="item.status.status_description === '已签收'"
-                          ><el-tag type="info">已签收</el-tag></span
-                        >
-                        <span
-                          v-if="item.status.status_description === '交易成功'"
-                          ><el-tag type="success">交易成功</el-tag></span
-                        >
-                        <span v-if="item.status.status_description === '审核中'"
-                          >审核中</span
-                        >
-                        <span v-if="item.status.status_description === '待运回'"
-                          >待运回</span
-                        >
-                        <span v-if="item.status.status_description === '已退款'"
-                          >已退款</span
-                        >
+                        <span v-if="item.status.status_description === '已取消'"><el-tag type="warning">订单已取消</el-tag></span>
+                        <span v-if="item.status.status_description === '已下单'"><el-tag type="success">已下单</el-tag></span>
+                        <span v-if="item.status.status_description === '待支付'"><el-tag type="info">待支付</el-tag></span>
+                        <span v-if="item.status.status_description === '已支付'"><el-tag type="success">已支付</el-tag></span>
+                        <span v-if="item.status.status_description === '出货中'"><el-tag type="">出货中</el-tag></span>
+                        <span v-if="item.status.status_description === '已发货'"><el-tag type="info">已发货</el-tag></span>
+                        <span v-if="item.status.status_description === '运输中'"><el-tag type="info">运输中</el-tag></span>
+                        <span v-if="item.status.status_description === '已签收'"><el-tag type="info">已签收</el-tag></span>
+                        <span v-if="item.status.status_description === '交易成功'"><el-tag type="success">交易成功</el-tag></span>
+                        <span v-if="item.status.status_description === '审核中'"><el-tag type="warning">审核中</el-tag></span>
+                        <span v-if="item.status.status_description === '待运回'"><el-tag type="info">待运回</el-tag></span>
+                        <span v-if="item.status.status_description === '已退款'"><el-tag type="success">已退款</el-tag></span>
                       </p>
                       <p class="detail">
-                        <span @click="orderDetail(item.order_id)"
-                          >订单详情</span
-                        >
+                        <span @click="orderDetail(item.order_id)">订单详情</span>
                       </p>
-                      <p
-                        v-if="
-                          item.status.status_description === '已发货' ||
-                          item.status.status_description === '已发货' ||
-                          item.status.status_description === '已发货' ||
-                          item.status.status_description === '已发货'
-                        "
-                        class="click change-color-on-hover"
-                      >
+                      <p v-if="item.status.status_description === '已发货' ||
+                        item.status.status_description === '已发货' ||
+                        item.status.status_description === '已发货' ||
+                        item.status.status_description === '已发货'
+                        " class="click change-color-on-hover">
                         <span @click="viewLogistics">查看物流</span>
                       </p>
                     </td>
-                    <td
-                      colspan=""
-                      :rowspan="item.commodity_list.length"
-                      headers=""
-                      class="order_handle body_content_ohandle"
-                    >
+                    <td colspan="" :rowspan="item.commodity_list.length" headers=""
+                      class="order_handle body_content_ohandle">
                       <p v-if="item.status.status_description === '待支付'">
-                        <el-button
-                          size="mini"
-                          type="danger"
-                          @click="pay(item.order_id)"
-                          >立即付款
+                        <el-button size="mini" type="danger" @click="pay(item.order_id)">立即付款
                         </el-button>
                       </p>
-                      <p
-                        v-if="item.status.status_description === '待支付'"
-                        class="order_cancel"
-                      >
-                        <span @click="deleteOrder">取消订单</span>
+                      <p v-if="item.status.status_description === '待支付'" class="order_cancel">
+                        <span @click="deleteOrder(item.order_id)">取消订单</span>
                       </p>
-                      <p
-                        v-if="
-                          item.status.status_description === '已发货' ||
-                          item.status.status_description === '运输中' ||
-                          item.status.status_description === '已签收' ||
-                          item.status.status_description === '交易成功'
-                        "
-                        class="click change-color-on-hover"
-                      >
+                      <p v-if="item.status.status_description === '已发货' ||
+                        item.status.status_description === '运输中' ||
+                        item.status.status_description === '已签收' ||
+                        item.status.status_description === '交易成功'
+                        " class="click change-color-on-hover">
                         <span @click="invoice">申请发票</span>
                       </p>
                     </td>
@@ -328,26 +194,15 @@
               <div v-show="currentComment == index" class="comment-box">
                 <div class="area">
                   <div class="label">评论商品</div>
-                  <el-input
-                    style="font-size: 15px"
-                    type="textarea"
-                    :autosize="{ minRows: 2, maxRows: 4 }"
-                    placeholder="请输入内容"
-                    v-model="commentContent"
-                  >
+                  <el-input style="font-size: 15px" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }"
+                    placeholder="请输入内容" v-model="commentContent">
                   </el-input>
                 </div>
                 <div class="area">
                   <div class="label">上传图片</div>
-                  <el-upload
-                    :action="globalVar.HOST_NAME + '/file/upload'"
-                    name="image"
-                    list-type="picture-card"
-                    :on-preview="handlePictureCardPreview"
-                    :on-remove="handleRemove"
-                    @click="testImg"
-                    :on-success="uploadSuccess"
-                  >
+                  <el-upload :action="globalVar.HOST_NAME + '/file/upload'" name="image" list-type="picture-card"
+                    :on-preview="handlePictureCardPreview" :on-remove="handleRemove" @click="testImg"
+                    :on-success="uploadSuccess">
                     <i class="el-icon-plus"></i>
                   </el-upload>
                   <el-dialog :visible.sync="dialogVisible">
@@ -360,9 +215,7 @@
                   </el-rate>
                 </div>
                 <div class="area">
-                  <el-button type="primary" @click="commitComment"
-                    >提交评论</el-button
-                  >
+                  <el-button type="primary" @click="commitComment">提交评论</el-button>
                 </div>
               </div>
             </div>
@@ -382,6 +235,7 @@ export default {
   name: "order",
   data() {
     return {
+      user_id: "",
       currentCommentId: -1,
       rating: 1,
       currentSpecifications: "",
@@ -434,6 +288,14 @@ export default {
     };
   },
   created() {
+    var user_id = localStorage.getItem("id");
+    if (user_id == "" || user_id === undefined || user_id == null) {
+      this.$router.push({ path: "/login" }).catch((err) => {
+        console.log(err);
+      });
+    } else {
+      this.user_id = user_id
+    }
     //console.log(this.list.length);
     this.filteredOrders();
   },
@@ -456,7 +318,6 @@ export default {
     },
     commitComment() {
       let _this = this;
-      const user_id = localStorage.getItem("id");
       if (user_id === "" || user_id == undefined || user_id == null) {
         this.$router.push({ path: "/login" }).catch((err) => {
           console.log(err);
@@ -464,7 +325,7 @@ export default {
       } else {
         this.request
           .post(globalVar.HOST_NAME + "/comment/addcomment", {
-            user_id: user_id,
+            user_id: this.user_id,
             content: this.commentContent,
             commodity_id: this.currentCommentId,
             rating: this.rating,
@@ -488,7 +349,7 @@ export default {
     testRating() {
       console.log(this.rating);
     },
-    invoice() {},
+    invoice() { },
     uploadSuccess(res) {
       console.log(res);
       this.uploadImageNames.push(res.data.filename);
@@ -517,7 +378,7 @@ export default {
       this.uploadImageNames = [];
       console.log(
         index == this.currentComment &&
-          item.specifications === this.currentSpecifications
+        item.specifications === this.currentSpecifications
       );
       // 展示添加评论的界面
       if (
@@ -554,7 +415,7 @@ export default {
       axios
         .post(globalVar.HOST_NAME + "/user_order/get_order_by_user_id", {
           //user_id: localStorage.getItem('id'),
-          user_id: "1128309135050412032",
+          user_id: this.user_id,
           status: status,
         })
         .then((response) => {
@@ -633,7 +494,7 @@ export default {
       axios
         .post(globalVar.HOST_NAME + "/user_order/findOrdersByKey", {
           // user_id: localStorage.getItem("id"),
-          user_id: "1128309135050412032",
+          user_id: this.user_id,
           status: status,
           key: this.selectTitle,
 
@@ -652,27 +513,32 @@ export default {
     },
     //商品详情
     viewGood(work) {
-      this.$router.push({
-        path: "/productdetails",
-        query: {
-          commodity_id: work.commodity_id,
-        },
-      });
+      // this.$router.push({
+      //   path: "/productdetails",
+      //   query: {
+      //     commodity_id: work.commodity_id,
+      //   },
+      // });
+      
+      this.$router.push({name:"productdetails",path:'/frontpage/productdetails',query:{ID:work.commodity_id}}).catch(err => err)
     },
     //申请售后
     afterSale(order, good) {
+      console.log("订单")
+      console.log(order)
       console.log(good.commodity_id);
       this.$router.push({
         path: "/ApplyAfterSales",
         query: {
-          user_id: localStorage.getItem("id"),
+          user_id: this.user_id,
+          order_obj: order,
           orderId: order.order_id,
           commodity_id: good.commodity_id,
         },
       });
     },
     //查看物流
-    viewLogistics() {},
+    viewLogistics() { },
 
     //支付
     pay(orderId) {
@@ -690,8 +556,8 @@ export default {
               showClose: true,
               type: "success",
             });
+            this.filteredOrders();
           }
-          this.filteredOrders();
         })
         .catch((error) => {
           console.log(error);
@@ -711,7 +577,7 @@ export default {
     //删除订单
     deleteOrder(orderId) {
       console.log(orderId);
-
+      // return;
       axios
         .delete(globalVar.HOST_NAME + "/user_order/delete", {
           params: {
@@ -739,16 +605,20 @@ export default {
 .el-select .el-input {
   width: 130px;
 }
+
 .input-with-select .el-input-group__prepend {
   background-color: #fff;
 }
+
 .flexbox {
   display: flex;
 }
+
 .left,
 .right {
   flex: 1;
 }
+
 .btn-act {
   background-color: rgb(84, 84, 234);
   color: aliceblue;
@@ -983,6 +853,7 @@ export default {
 <style lang="scss">
 .orderList {
   .order-body {
+
     td,
     th {
       padding: 10px 0;

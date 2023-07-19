@@ -41,16 +41,8 @@ const routes = [
   //   name:'home',
   //   component: home
   // },
-  {
-    path:'/OrderDetails',
-    name:'订单详情页',
-    component: OrderDetails
-  },
-  {
-    path:'/ApplyAfterSales',
-    name:'申请售后',
-    component: ApplyAfterSales
-  },
+  
+  
     // {
     //     path: '/',
     //     name: 'home',
@@ -75,6 +67,21 @@ const routes = [
         component: () => import('../views/hongpage/homepage.vue'),
         redirect: "/firstpage",
         children: [
+            {
+                path:'/ApplyAfterSales',
+                name:'申请售后',
+                component: ApplyAfterSales
+              },
+            {
+                path:'/OrderDetails',
+                name:'订单详情页',
+                component: OrderDetails
+              },
+            {
+                path: 'chat',
+                name: 'chat',
+                component: () => import('../views/chatView/chatView.vue')
+            },
             {
                 path: 'order',
                 name: 'order',
